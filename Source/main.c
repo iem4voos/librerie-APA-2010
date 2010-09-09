@@ -4,13 +4,16 @@
 #include "lib/coda.h"
 
 int main (int argc, const char * argv[]) {
-    printf("test lib 01\n");
+    char str[]="parolalunga";
+    coda C=codaInit();
+
+    puts("------ test lib -------");
     
-    coda C;
-    
-    C=codaInit();
-    
-    
+        //aggiungo elementi alla coda
+    for(int i=0; str[i]!='\0'; codaAppend(C, &str[i++]) );
+
+        //stampo gli elemeti in coda
+    for(char *c; (c=(char *)codaGet(C)) ; printf(">>%c<<\n",*c) );
     
     return 0;
 }

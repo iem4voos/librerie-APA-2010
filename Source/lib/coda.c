@@ -4,40 +4,83 @@
 #include<stdlib.h>
 #include<stdio.h>
 
-
+/*---------------FYPEDEF-----------------*/
 typedef struct item_s * item_t;
+typedef struct item_s item;
+typedef struct coda_s coda_t;
 
+/*----------------STRUTTURE---------------*/
 struct item_s {
     int     num;
     void *  item;
-    item_t  next;
+    item *  next;
 } ;
 
 struct coda_s {
     double z,s,d,f,g;
-    item_t testa;
-    item_t coda;
+    int nElem;
+    item * testa;
+    item * coda;
 };
 
-typedef struct coda_s *coda_t;
-
+/*-----------------FUNZIONI---------------*/
 coda codaInit(void){
-    coda_t c;
-    
+    coda_t *c;
     c=malloc(sizeof(struct coda_s));
-    
-    
-    
-    
-    return NULL;
+    c->coda=c->testa=NULL;
+    c->nElem=0;
+    return c;
 }
 
-void codaPush(coda c, void * el){
-    item_t i;
-    i=malloc(sizeof(struct item_s));
-    c->coda=i->next;
-    c=i;
+void codaAppend(coda c, void * el){
+    item * i;
+    
+    i=malloc(sizeof(item));
+    i->item=el;
+    
+    if(c->nElem==0){
+        c->testa=c->coda=i;
+        c->nElem=1;
+        if(DEBUG) puts("aggiunto primo elemento");
+    }else{
+        c->coda->next=i;
+        c->coda=i;
+        c->nElem++;
+        if(DEBUG) puts("aggiunto n-esimo elemento");
+    }
 }
 void * codaGet(coda c){
-    return NULL;
+    item *i;
+    
+    if(c->nElem==0){
+        if(DEBUG) puts("coda vuota");
+        return NULL;
+    }
+        
+    i=c->testa->item;
+    c->testa=c->testa->next;
+    c->nElem--;
+    return i;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
