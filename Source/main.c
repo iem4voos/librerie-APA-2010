@@ -7,7 +7,7 @@ int main (int argc, const char * argv[]) {
     char str[]="parolalunga";
     coda C=codaInit();
 
-    puts("------ test lib -------");
+    puts("------ test lib -------\n");
     
         //aggiungo elementi alla coda
     for(int i=0; str[i]!='\0'; codaAppend(C, &str[i++]) );
