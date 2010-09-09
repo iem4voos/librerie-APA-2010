@@ -1,17 +1,17 @@
 Collezione Librerie Semplici in C
 ======================
 
-resource-leveling channels via bricks-and-clicks methodologies. Intrinsicly unleash accurate interfaces with accurate e-markets. Interactively aggregate team building intellectual capital before equity invested "outside the box" thinking.
-
-outside the box
+Done
 ---------------
 
+* [coda](http://it.wikipedia.org/wiki/Coda_%28informatica%29)
 
-* Progressively impact 
-* effective quality vectors via 
-* flexible processes. Competently benchmark 
-* mission-critical networks before highly 
-* efficient [networks](http://www.google.com/)
+Todo
+-----
 
-'Credibly engin'
+* stack
+* heap
+* grafo
+
+* algoritmi sui grafi
 
