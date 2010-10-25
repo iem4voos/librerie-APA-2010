@@ -20,4 +20,5 @@ altro
 .....
 
 [markdown tutorial](http://daringfireball.net/projects/markdown/dingus)
+[fast git tutorial](Docs/fast_git_tutorial.html)
 
