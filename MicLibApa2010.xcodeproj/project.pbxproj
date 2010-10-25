@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050E06F0127611DF00350C49 /* matrice.c in Sources */ = {isa = PBXBuildFile; fileRef = 050E06EE127611DF00350C49 /* matrice.c */; };
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
 		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
 /* End PBXBuildFile section */
@@ -24,12 +25,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		050E06EE127611DF00350C49 /* matrice.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrice.c; sourceTree = "<group>"; };
+		050E06EF127611DF00350C49 /* matrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrice.h; sourceTree = "<group>"; };
 		0517F24E1275D9C000FE4281 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0517F2511275E00D00FE4281 /* fast_git_tutorial.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fast_git_tutorial.html; sourceTree = "<group>"; };
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
-		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = Source/main.c; sourceTree = "<group>"; };
+		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +58,6 @@
 			isa = PBXGroup;
 			children = (
 				056CD4EF1275D32C007F514B /* Source */,
-				05A4D4691275D6CC004DBA9E /* main.c */,
 				056CD4F01275D32C007F514B /* Documentation */,
 				056CD4F61275D32C007F514B /* Products */,
 			);
@@ -64,6 +66,7 @@
 		056CD4EF1275D32C007F514B /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				05A4D4691275D6CC004DBA9E /* main.c */,
 				05A4D4641275D664004DBA9E /* lib */,
 			);
 			path = Source;
@@ -89,6 +92,8 @@
 		05A4D4641275D664004DBA9E /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				050E06EE127611DF00350C49 /* matrice.c */,
+				050E06EF127611DF00350C49 /* matrice.h */,
 				05A4D4651275D664004DBA9E /* coda.c */,
 				05A4D4661275D664004DBA9E /* coda.h */,
 			);
@@ -144,6 +149,7 @@
 			files = (
 				05A4D4671275D664004DBA9E /* coda.c in Sources */,
 				05A4D46A1275D6CC004DBA9E /* main.c in Sources */,
+				050E06F0127611DF00350C49 /* matrice.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +166,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
+				LIBRARY_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
@@ -175,6 +183,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
+				LIBRARY_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
 				SDKROOT = macosx;
