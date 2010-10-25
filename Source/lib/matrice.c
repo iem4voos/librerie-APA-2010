@@ -3,7 +3,7 @@
 #include "matrice.h"
 #include <stdlib.h>
 
-//MARK: 2D
+//MARK: 2D 
 void ** zInitMat2d(int R,int C, size_t dim){
 
     void ** mat;

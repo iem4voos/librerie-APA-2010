@@ -23,7 +23,6 @@ altro
 ---
 ### matrici.h ###
 
-
  Questa libreria permette di creare e liberare la memoria 
  per matrici quadrate e cubiche
 

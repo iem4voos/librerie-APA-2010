@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "matrice.h"
 
-
+ 
 #define fDBG(a) printf(#a "\n%f",a) 
 #define cDBG(a) printf(#a "\n%c",a) 
 

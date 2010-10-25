@@ -1,4 +1,4 @@
-//  matrice.h MicLibApa2010 Created by mic on 25/10/10.
+//  matrice.h MicLibApa2010 Created by mic on 25/10/10. 
 #ifndef _matrice_H_
 #define _matrice_H_
 
