@@ -1,0 +1,210 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		056CD4FA1275D32C007F514B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 056CD4F91275D32C007F514B /* main.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		056CD4F31275D32C007F514B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
+		056CD4F81275D32C007F514B /* MicLibApa2010.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MicLibApa2010.1; sourceTree = "<group>"; };
+		056CD4F91275D32C007F514B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		056CD4F21275D32C007F514B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		056CD4E81275D32C007F514B = {
+			isa = PBXGroup;
+			children = (
+				056CD4EF1275D32C007F514B /* Source */,
+				056CD4F01275D32C007F514B /* Documentation */,
+				056CD4F61275D32C007F514B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		056CD4EF1275D32C007F514B /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				056CD4F91275D32C007F514B /* main.c */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		056CD4F01275D32C007F514B /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				056CD4F81275D32C007F514B /* MicLibApa2010.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+		056CD4F61275D32C007F514B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				056CD4F51275D32C007F514B /* MicLibApa2010 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		056CD4F41275D32C007F514B /* MicLibApa2010 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 056CD4FD1275D32C007F514B /* Build configuration list for PBXNativeTarget "MicLibApa2010" */;
+			buildPhases = (
+				056CD4F11275D32C007F514B /* Sources */,
+				056CD4F21275D32C007F514B /* Frameworks */,
+				056CD4F31275D32C007F514B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MicLibApa2010;
+			productName = MicLibApa2010;
+			productReference = 056CD4F51275D32C007F514B /* MicLibApa2010 */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		056CD4EA1275D32C007F514B /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 056CD4ED1275D32C007F514B /* Build configuration list for PBXProject "MicLibApa2010" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 056CD4E81275D32C007F514B;
+			productRefGroup = 056CD4F61275D32C007F514B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				056CD4F41275D32C007F514B /* MicLibApa2010 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		056CD4F11275D32C007F514B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				056CD4FA1275D32C007F514B /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		056CD4FB1275D32C007F514B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		056CD4FC1275D32C007F514B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PREBINDING = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		056CD4FE1275D32C007F514B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		056CD4FF1275D32C007F514B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		056CD4ED1275D32C007F514B /* Build configuration list for PBXProject "MicLibApa2010" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				056CD4FB1275D32C007F514B /* Debug */,
+				056CD4FC1275D32C007F514B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		056CD4FD1275D32C007F514B /* Build configuration list for PBXNativeTarget "MicLibApa2010" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				056CD4FE1275D32C007F514B /* Debug */,
+				056CD4FF1275D32C007F514B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 056CD4EA1275D32C007F514B /* Project object */;
+}
