@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		056CD4FA1275D32C007F514B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 056CD4F91275D32C007F514B /* main.c */; };
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
+		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,9 +26,9 @@
 /* Begin PBXFileReference section */
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
 		056CD4F81275D32C007F514B /* MicLibApa2010.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MicLibApa2010.1; sourceTree = "<group>"; };
-		056CD4F91275D32C007F514B /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
+		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = Source/main.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				056CD4EF1275D32C007F514B /* Source */,
+				05A4D4691275D6CC004DBA9E /* main.c */,
 				056CD4F01275D32C007F514B /* Documentation */,
 				056CD4F61275D32C007F514B /* Products */,
 			);
@@ -55,7 +56,6 @@
 			isa = PBXGroup;
 			children = (
 				05A4D4641275D664004DBA9E /* lib */,
-				056CD4F91275D32C007F514B /* main.c */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -132,8 +132,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				056CD4FA1275D32C007F514B /* main.c in Sources */,
 				05A4D4671275D664004DBA9E /* coda.c in Sources */,
+				05A4D46A1275D6CC004DBA9E /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
