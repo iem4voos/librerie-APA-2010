@@ -25,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		0517F24E1275D9C000FE4281 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		0517F2511275E00D00FE4281 /* fast_git_tutorial.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fast_git_tutorial.html; sourceTree = "<group>"; };
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
@@ -42,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0517F2501275DFF300FE4281 /* Docs */ = {
+			isa = PBXGroup;
+			children = (
+				0517F2511275E00D00FE4281 /* fast_git_tutorial.html */,
+			);
+			path = Docs;
+			sourceTree = "<group>";
+		};
 		056CD4E81275D32C007F514B = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +72,7 @@
 		056CD4F01275D32C007F514B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
+				0517F2501275DFF300FE4281 /* Docs */,
 				0517F24E1275D9C000FE4281 /* README.md */,
 			);
 			name = Documentation;
