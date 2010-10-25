@@ -20,5 +20,5 @@ altro
 .....
 
 [markdown tutorial](http://daringfireball.net/projects/markdown/dingus)
-[fast git tutorial](Docs/fast_git_tutorial.html)
+[fast git tutorial](Docs/fast_git_tutorial.html) from [http://book.git-scm.com/3_distributed_workflows.html](http://book.git-scm.com/3_distributed_workflows.html)
 
