@@ -25,7 +25,6 @@
 
 /* Begin PBXFileReference section */
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
-		056CD4F81275D32C007F514B /* MicLibApa2010.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = MicLibApa2010.1; sourceTree = "<group>"; };
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
 		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = Source/main.c; sourceTree = "<group>"; };
@@ -63,7 +62,6 @@
 		056CD4F01275D32C007F514B /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
-				056CD4F81275D32C007F514B /* MicLibApa2010.1 */,
 			);
 			name = Documentation;
 			sourceTree = "<group>";
