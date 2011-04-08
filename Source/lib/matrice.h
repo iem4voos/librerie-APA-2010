@@ -19,6 +19,8 @@
 //        freeMat3d( mat_3d ,7, 9, 5);
 //---------------------------------------------------------
 
+//TODO: rivedere le macro: sizeof(#tipo) potrebbe restituire la lunghezza della stringa e non il valore corretto
+
 //2D
 #define initMatt2d(x,y,tipo) zInitMat2d(x,y,sizeof(#tipo))
 #define freeMat2d(mat,x,y) zFreeMat2d((void **)mat,x,y)
