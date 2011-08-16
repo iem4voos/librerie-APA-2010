@@ -36,4 +36,6 @@ void zFreeMat2d(void **mat,int R,int C);
 void *** zInitMat3d(int R,int C, int P, size_t dim);
 void zFreeMat3d(void ***mat,int R,int C, int P);
 
+void * initMattNd(int ,...);
+
 #endif // #ifndef _matrice.h_H_

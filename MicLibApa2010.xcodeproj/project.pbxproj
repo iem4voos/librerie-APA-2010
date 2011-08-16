@@ -10,6 +10,7 @@
 		050E06F0127611DF00350C49 /* matrice.c in Sources */ = {isa = PBXBuildFile; fileRef = 050E06EE127611DF00350C49 /* matrice.c */; };
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
 		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
+		05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2D1813F7D5E400507CF9 /* str2int.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -33,6 +34,8 @@
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
 		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		05AA2D1713F7D5C200507CF9 /* str2int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str2int.h; sourceTree = "<group>"; };
+		05AA2D1813F7D5E400507CF9 /* str2int.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = str2int.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +99,8 @@
 				050E06EF127611DF00350C49 /* matrice.h */,
 				05A4D4651275D664004DBA9E /* coda.c */,
 				05A4D4661275D664004DBA9E /* coda.h */,
+				05AA2D1713F7D5C200507CF9 /* str2int.h */,
+				05AA2D1813F7D5E400507CF9 /* str2int.c */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -125,6 +130,9 @@
 /* Begin PBXProject section */
 		056CD4EA1275D32C007F514B /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 056CD4ED1275D32C007F514B /* Build configuration list for PBXProject "MicLibApa2010" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -150,6 +158,7 @@
 				05A4D4671275D664004DBA9E /* coda.c in Sources */,
 				05A4D46A1275D6CC004DBA9E /* main.c in Sources */,
 				050E06F0127611DF00350C49 /* matrice.c in Sources */,
+				05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -166,11 +175,9 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
-				LIBRARY_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -183,10 +190,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
-				LIBRARY_SEARCH_PATHS = /Users/mic/Documents/workspace/Xcode/Librerie/MicLibApa2010/Source/lib/;
+				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				PREBINDING = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;

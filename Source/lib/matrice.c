@@ -2,13 +2,14 @@
 
 #include "matrice.h"
 #include <stdlib.h>
+#include <stdarg.h>
 
 //MARK: 2D 
 void ** zInitMat2d(int R,int C, size_t dim){
 
     void ** mat;
     
-    mat=(void **)malloc(sizeof(void *) * C);
+    mat=(void **)malloc(sizeof(void *) * R);
     
     for(int j=0; j< R ; j++ ){
         mat[j]=(void*)calloc(C, dim);
@@ -54,3 +55,46 @@ void zFreeMat3d(void ***mat,int R,int C, int P){
     free(mat);
     return;
 }
+
+struct n_size_matrix {
+    int * misure;
+    int nDimensioni;
+    void * struttura;
+    size_t dim_cella;
+};
+
+/*
+// initMattNd(int narg , 2 ,5 ,4, int)
+void * initMattNd(int narg ,...){
+    
+    va_list ap; va_start(ap, narg);
+    
+    struct n_size_matrix * M;
+    M= malloc(sizeof(struct n_size_matrix));
+    
+    M->nDimensioni=narg-1;
+    M->misure = calloc(narg-1, sizeof(int));
+    
+    for (int i= 0; i< narg-1; i++) {
+        M->misure[i]=va_arg(ap, int);
+    }
+    
+    size_t dim_cella;
+    dim_cella = va_arg(ap, int);
+    M->dim_cella = dim_cella;
+    
+    va_end(ap);
+    
+    void * z, *h;
+    
+    
+    for (int i= 0; i< narg-1; i++) 
+        for (int j= 0; j< M->misure[i]; j++){
+            z=calloc(<#unsigned long#>, <#unsigned long#>)
+        }
+    
+    
+    
+    return NULL;
+}
+*/
