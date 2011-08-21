@@ -1,13 +1,17 @@
 //  coda.c  librerie-APA-2010   Created by mic on 08/09/10.
 
 #include "coda.h"
-#include<stdlib.h>
-#include<stdio.h>
 
 enum boolean {
     TRUE = 1,
     FALSE = 0
     };
+
+enum iteration_status{
+    OK, F_STOP, B_STOP
+};
+
+//LONG_MAX
 
 /*---------------FYPEDEF-----------------*/
 typedef struct item_s * item_t;
@@ -15,6 +19,12 @@ typedef struct item_s item;
 typedef struct coda_s coda_t;
 
 /*----------------STRUTTURE---------------*/
+struct iterator_s{
+    item * current;
+    coda Coda;
+    enum iteration_status status;
+};
+
 struct item_s {
     int     num;
     void *  item;
@@ -31,9 +41,120 @@ struct coda_s {
 };
 
 /*-----------------FUNZIONI---------------*/
+#pragma mark - iterator
+coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_direction direction)
+{    
+    coda_iterator I;
+    I=malloc(sizeof(struct iterator_s));
+    
+    if (element == NULL) 
+    {
+        if (direction == FORWARD_ITERATION)
+            I->current= C->testa;
+        else
+            I->current= C->coda;
+    }else{
+        struct item_s * pt;
+        for (pt=C->testa; pt->item!=element || pt!=C->coda; pt=pt->next) ;
+        I->current=pt;
+    }
+    I->Coda=C;
+    
+    if (I->current == C->testa)
+        I->status = B_STOP;
+    
+    if (I->current == C->coda)
+        I->status = F_STOP;
+    
+    return I;
+}
+
+void codaIteratorFree(coda_iterator I){
+    free(I);
+}
+
+void * coda_Next(coda_iterator I){
+    item_t pt;
+    // se e arrivato alla fine e sussistono errori rituena null
+    if ( I==NULL || (pt = I->current) == NULL || I->status == F_STOP  )
+        return NULL;
+    // se e arrivato alll ultimo si ferma e le prissime chiamate risponde null
+    if ( pt->next == NULL) {
+        I->status=F_STOP;
+    }else{
+        I->status=OK;
+        I->current=pt->next;
+    }
+    return pt->item;
+}
+
+void * coda_Prev(coda_iterator I){
+    item_t pt;
+     // se e arrivato alla fine e sussistono errori rituena null
+    if ( I==NULL || (pt = I->current) == NULL || I->status==B_STOP )
+        return NULL;
+    // se e arrivato alll ultimo si ferma e le prissime chiamate risponde null
+    if ( pt->prev== NULL) {
+        I->status=B_STOP;
+    }else{
+        I->status=OK;
+        I->current=pt->prev;
+    }
+    return pt->item;
+}
+
+#pragma mark numeric
+float coda_NextNum(coda_iterator I){
+    float * f, num;
+    f=coda_Next(I);
+    if (f==NULL) 
+        return CODA_ITERATION_END;
+    num=*f;
+    return num;
+}
+
+float coda_PrevNum(coda_iterator I){
+    float * f, num;
+    f=coda_Prev(I);
+    if (f==NULL) 
+        return CODA_ITERATION_END;
+    num=*f;
+    return num;
+}
+
+#pragma mark - generic
+
 int codaCount(coda C){
     return C->nElem;
 }
+
+coda codaInit(void){
+    coda_t *c;
+    c=malloc(sizeof(struct coda_s));
+    c->coda=c->testa=NULL;
+    c->nElem=0;
+    c->isNumeric = FALSE;
+    return c;
+}
+
+void codaFree(coda C){
+    struct item_s * tmp;
+    for (struct item_s * i=C->testa; i!=NULL;   ) {
+        free(i->item);
+        tmp=i;
+        i=i->next;
+        free(tmp);
+    }
+}
+
+int codaIsEmpty(coda C){
+    if (codaCount(C)==0)
+        return 1;
+    else
+        return 0;
+}
+
+#pragma mark - pop/get
 
 void codaPush(coda C, void * elemento){
     struct item_s *I;
@@ -51,72 +172,6 @@ void codaPush(coda C, void * elemento){
     C->nElem ++;
 }
 
-void codaPushNum(coda C, float num){
-    float *f;
-    f = malloc(sizeof(float));
-    *f=num;
-    codaPush(C, f);
-}
-
-coda codaInit(void){
-    coda_t *c;
-    c=malloc(sizeof(struct coda_s));
-    c->coda=c->testa=NULL;
-    c->nElem=0;
-    c->isNumeric = FALSE;
-    return c;
-}
-
-coda codaInitNumeric(void){
-    coda_t *c;
-    c= codaInit();
-    c->isNumeric = TRUE;
-    return c;
-}
-
-void codaFree(coda C){
-    struct item_s * tmp;
-    for (struct item_s * i=C->testa; i!=NULL; ) {
-        free(i->item);
-        tmp=i;
-        i=i->next;
-        free(tmp);
-    }
-}
-
-int codaIsEmpty(coda C){
-    if (codaCount(C)==0)
-        return 1;
-    else
-        return 0;
-}
-
-/*
-void codaAppend(coda c, void * el){
-    item * i;
-    
-    i=malloc(sizeof(item));
-    i->item=el;
-    
-    if(c->nElem==0){
-        c->testa=c->coda=i;
-        c->nElem=1;
-        if(DEBUG) puts("aggiunto primo elemento");
-    }else{
-        c->coda->next=i;
-        c->coda=i;
-        c->nElem++;
-        if(DEBUG) puts("aggiunto n-esimo elemento");
-    }
-}
- */
-
-#define mySmallMacro(cosa,capo,direzione) { \
-i = #cosa->#capo->item; \
-#cosa->#capo=#cosa->#capo->#direzione; \
-#cosa->nElem--;  \
-}
-
 void * codaGet(coda c){
     item *i;
     
@@ -129,14 +184,6 @@ void * codaGet(coda c){
     c->testa=c->testa->next;
     c->nElem--;
     return i;
-}
-
-float codaGetNum(coda c){
-    float * f, num;
-    f= codaGet(c);
-    num=*f;
-    free(f);
-    return num;
 }
 
 void * codaPop(coda C){
@@ -152,14 +199,79 @@ void * codaPop(coda C){
     return i;
 }
 
+#pragma mark - Numeric
+
+coda codaInitNumeric(void){
+    coda_t *c;
+    c= codaInit();
+    c->isNumeric = TRUE;
+    return c;
+}
+
+void codaPushNum(coda C, float num){
+    float *f;
+    f = malloc(sizeof(float));
+    *f=num;
+    codaPush(C, f);
+}
+
+float codaGetNum(coda c){
+    float * f, num;
+    f= codaGet(c);
+    num=*f;
+    free(f);
+    return num;
+}
+
 float codaPopNum(coda C){
     float * f, num;
     f= codaPop(C);
+    if (f==NULL) {
+        return -1;
+    }
     num=*f;
     free(f);
     return num;
     
 }
+
+#pragma mark - test
+
+void coda_selfTest1(void){
+    coda C;
+    coda_iterator I;
+    float x;
+    
+    C = codaInitNumeric();
+    for (int i=0; i<5; i++) {
+        codaPushNum(C, i);
+    }
+    
+    puts("Iteratore avanti");
+    I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+    
+    while ((x=coda_NextNum(I))!=CODA_ITERATION_END) {
+        printf(">%d\n",(int)x);
+    }
+    puts("Iteratore indietro");
+    
+    while ((x=coda_PrevNum(I))!=CODA_ITERATION_END) {
+        printf(">%d\n",(int)x);
+    }
+    
+    puts("svuoto la coda");
+    for (int i=0; !codaIsEmpty(C); i++) {
+        printf("%d\n", (int)codaGetNum(C) );
+        //printf("%d\n", (int)codaPopNum(C) );
+    }
+
+    codaIteratorFree(I);
+    codaFree(C);
+    
+    return;
+}
+
+
 
 
 

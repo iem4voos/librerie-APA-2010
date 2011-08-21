@@ -1,8 +1,22 @@
 //  coda.h   librerie-APA-2010
 
-#define DEBUG 1
+#include <float.h>  
+#include <stdlib.h>
+#include <stdio.h>
 
-typedef struct coda_s *coda;
+#define DEBUG 1
+#define CODA_ITERATION_END FLT_MIN
+
+enum iteration_direction {
+    FORWARD_ITERATION = 1,
+    BACKWARD_ITERATION = 0
+};
+
+typedef struct coda_s * coda;
+typedef struct iterator_s * coda_iterator;
+
+
+
 
 /*
  Push-->
@@ -16,15 +30,27 @@ typedef struct coda_s *coda;
 //void codaAppend(coda , void * elemento);
 
 coda codaInit(void);
+void codaFree(coda);
 void codaPush(coda , void * elemento);
 void * codaGet(coda);
 void * codaPop(coda);
-void codaFree(coda);
+
 
 int codaCount(coda);
 int codaIsEmpty(coda C);
 
 coda codaInitNumeric(void);
+//void codaFree(coda);
 void codaPushNum(coda C, float num);
 float codaPopNum(coda C);
 float codaGetNum(coda c);
+
+coda_iterator codaIteratorInit(coda C, void * element, enum iteration_direction);
+void * coda_Next(coda_iterator I);
+void * coda_Prev(coda_iterator I);
+
+float coda_NextNum(coda_iterator I);
+float coda_PrevNum(coda_iterator I);
+
+void coda_selfTest1(void);
+

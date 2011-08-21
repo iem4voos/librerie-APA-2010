@@ -8,6 +8,7 @@
 #include "lib/matrice.h"
 #include "lib/str2int.h"
 #include "lib/coda.h"
+#include "lib/union-find.h"
 
 #define macro(stringa) sizeof(#stringa)
  
@@ -28,8 +29,12 @@ int main(void){
     printf("...\n");
     
 
-    test_coda();
-
+    //test_coda();
+    
+    coda_selfTest1();
+    
+    //uf_selftest();
+    
     //assert( macro(char) == sizeof(char) );
     
     //test_matrici();
@@ -50,6 +55,7 @@ void  test_coda(void){
     
     for (int i=0; !codaIsEmpty(C); i++) {
         printf("%d", (int)codaGetNum(C) );
+        printf("%d", (int)codaPopNum(C) );
     }
 }
 

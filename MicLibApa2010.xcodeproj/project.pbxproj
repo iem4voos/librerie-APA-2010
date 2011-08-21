@@ -11,6 +11,7 @@
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
 		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
 		05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2D1813F7D5E400507CF9 /* str2int.c */; };
+		05E4167513FAE546002F993C /* union-find.c in Sources */ = {isa = PBXBuildFile; fileRef = 05E4167413FAE546002F993C /* union-find.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,6 +37,8 @@
 		05A4D4691275D6CC004DBA9E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		05AA2D1713F7D5C200507CF9 /* str2int.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str2int.h; sourceTree = "<group>"; };
 		05AA2D1813F7D5E400507CF9 /* str2int.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = str2int.c; sourceTree = "<group>"; };
+		05E4167213FAE3E8002F993C /* union-find.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "union-find.h"; sourceTree = "<group>"; };
+		05E4167413FAE546002F993C /* union-find.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "union-find.c"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +104,8 @@
 				05A4D4661275D664004DBA9E /* coda.h */,
 				05AA2D1713F7D5C200507CF9 /* str2int.h */,
 				05AA2D1813F7D5E400507CF9 /* str2int.c */,
+				05E4167213FAE3E8002F993C /* union-find.h */,
+				05E4167413FAE546002F993C /* union-find.c */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -159,6 +164,7 @@
 				05A4D46A1275D6CC004DBA9E /* main.c in Sources */,
 				050E06F0127611DF00350C49 /* matrice.c in Sources */,
 				05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */,
+				05E4167513FAE546002F993C /* union-find.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
