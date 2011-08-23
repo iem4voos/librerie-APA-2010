@@ -1,5 +1,8 @@
 //  coda.h   librerie-APA-2010
 
+#ifndef coda_h
+#define coda_h
+
 #include <float.h>  
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,6 +39,13 @@ void * codaGet(coda);
 void * codaPop(coda);
 
 
+void codaPushUnique(coda , void * elemento, int (*funcPtCompare)(void *, void *));
+
+// the new one!!!
+void * codaDelByCompare(coda , void * elemento, int (*funcPtCompare)(void *, void *));
+
+//void * codaDelByElement(coda , void * elemento);
+
 int codaCount(coda);
 int codaIsEmpty(coda C);
 
@@ -46,6 +56,7 @@ float codaPopNum(coda C);
 float codaGetNum(coda c);
 
 coda_iterator codaIteratorInit(coda C, void * element, enum iteration_direction);
+void codaIteratorFree(coda_iterator I);
 void * coda_Next(coda_iterator I);
 void * coda_Prev(coda_iterator I);
 
@@ -54,3 +65,4 @@ float coda_PrevNum(coda_iterator I);
 
 void coda_selfTest1(void);
 
+#endif

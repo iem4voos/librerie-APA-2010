@@ -63,7 +63,7 @@ int uf_checkIfSizeFitsAndAdjust(uf_handler_t H, int p, int q)
         printf("vecchia dimensione: %d \n", H->max_len);
         
         if (max >= 2* H->max_len) {
-            max_len_tmp =max*1.5;
+            max_len_tmp =(int)(max*1.5);
         }else{
             max_len_tmp = 2 * H->max_len;
         }

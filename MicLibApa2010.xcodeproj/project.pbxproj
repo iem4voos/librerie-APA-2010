@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		050E06F0127611DF00350C49 /* matrice.c in Sources */ = {isa = PBXBuildFile; fileRef = 050E06EE127611DF00350C49 /* matrice.c */; };
+		054A56C914015AD1005D267F /* graph.c in Sources */ = {isa = PBXBuildFile; fileRef = 054A56C814015AD1005D267F /* graph.c */; };
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
 		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
 		05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */ = {isa = PBXBuildFile; fileRef = 05AA2D1813F7D5E400507CF9 /* str2int.c */; };
@@ -31,6 +32,8 @@
 		050E06EF127611DF00350C49 /* matrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrice.h; sourceTree = "<group>"; };
 		0517F24E1275D9C000FE4281 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0517F2511275E00D00FE4281 /* fast_git_tutorial.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fast_git_tutorial.html; sourceTree = "<group>"; };
+		054A56C614015AC4005D267F /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
+		054A56C814015AD1005D267F /* graph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = graph.c; sourceTree = "<group>"; };
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
 		05A4D4651275D664004DBA9E /* coda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coda.c; sourceTree = "<group>"; };
 		05A4D4661275D664004DBA9E /* coda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = coda.h; sourceTree = "<group>"; };
@@ -106,6 +109,8 @@
 				05AA2D1813F7D5E400507CF9 /* str2int.c */,
 				05E4167213FAE3E8002F993C /* union-find.h */,
 				05E4167413FAE546002F993C /* union-find.c */,
+				054A56C614015AC4005D267F /* graph.h */,
+				054A56C814015AD1005D267F /* graph.c */,
 			);
 			path = lib;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				050E06F0127611DF00350C49 /* matrice.c in Sources */,
 				05AA2D1913F7D5E400507CF9 /* str2int.c in Sources */,
 				05E4167513FAE546002F993C /* union-find.c in Sources */,
+				054A56C914015AD1005D267F /* graph.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

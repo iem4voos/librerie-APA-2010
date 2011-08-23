@@ -46,7 +46,6 @@ coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_directio
 {    
     coda_iterator I;
     I=malloc(sizeof(struct iterator_s));
-    
     if (element == NULL) 
     {
         if (direction == FORWARD_ITERATION)
@@ -54,18 +53,15 @@ coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_directio
         else
             I->current= C->coda;
     }else{
+        // need more testiong
         struct item_s * pt;
         for (pt=C->testa; pt->item!=element || pt!=C->coda; pt=pt->next) ;
         I->current=pt;
     }
     I->Coda=C;
     
-    if (I->current == C->testa)
-        I->status = B_STOP;
-    
-    if (I->current == C->coda)
-        I->status = F_STOP;
-    
+    if (I->current == C->testa) I->status = B_STOP;
+    if (I->current == C->coda)  I->status = F_STOP;
     return I;
 }
 
@@ -155,6 +151,26 @@ int codaIsEmpty(coda C){
 }
 
 #pragma mark - pop/get
+
+void codaPushUnique(coda C, void * elemento, int (*funcPtCompare)(void *, void *)){
+    coda_iterator I;
+    void *x;
+    I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+    
+    while ( (x=coda_Next(I)) ) {
+        if ( funcPtCompare(x, elemento) == 0 ) {
+            return;
+        }
+    }
+    
+    if (x==NULL) {
+        codaPush(C, elemento);
+    }
+    
+    codaIteratorFree(I);
+}
+
+
 
 void codaPush(coda C, void * elemento){
     struct item_s *I;
@@ -271,10 +287,78 @@ void coda_selfTest1(void){
     return;
 }
 
+//void codaDelSelected(coda C, void * elemento)
 
+#warning "da fare o almeno cotrollare"
+/*
 
+void * codaDelByElement(coda C , void * elemento){
+    
+    struct item_s * tmp;
+    void *pt;
+    
+    if (C->testa->item == elemento) {
+        C->testa=C->testa->next;
+        C->testa->prev=NULL;
+    }
+    
+    if (C->coda->item == elemento) {
+        C->coda=C->testa->prev;
+        C->testa->next=NULL;
+    }
+    
+    for (tmp=C->testa->next;
+         tmp->next != C->coda && tmp->item!=elemento;
+         tmp=tmp->next); 
+    
+    if (tmp->item==elemento) {
+        tmp->next->prev=tmp->prev;
+        tmp->prev->next=tmp->next;
+        C->nElem--;
+        pt=tmp->item;
+        free(tmp);
+        puts("coda: rimosso elemento");
+        return pt;
+    }
+    puts("coda: elemento non trovato per rimoxione");
+    return NULL;
+}
+*/
 
+/* return NULL se non trova elemento
+ *  contronta tutti gli elementi della lista usando la funzione compare e l'elemento
+ */
 
+void * codaDelByCompare(coda C, void * elemento, int (*funcPtCompare)(void *, void *)){
+
+    struct item_s * x;
+    void * the_item;
+    
+    //scorre la lista, se trova un elemento uguale si ferma con in X memorizzato l'elemento corrente
+    for (x=C->testa; x!=NULL; x=x->next) {
+        if (funcPtCompare(x->item, elemento) ==0 ) {
+            break;
+        }
+    }
+    
+    if (x==C->testa) {
+        C->testa = x->next;
+        x->next->prev=NULL;
+    }else if(x== C->coda ){
+        C->coda=x->prev;
+        x->prev->next=NULL;
+    }else if(x==NULL){
+        return NULL;         //can exit in another point
+    }else{
+    // the element is in middle
+        x->next->prev=x->prev;
+        x->prev->next=x->next;
+    }
+    
+    the_item= x->item;
+    free(x);
+    return the_item;
+}
 
 
 
