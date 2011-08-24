@@ -48,9 +48,11 @@ float codaGetNum(coda c);
 float codaDelNum(coda , float);
 
 coda_iterator codaIteratorInit(coda C, void * element, enum iteration_direction);
+void codaIteratorRewindFor(coda_iterator I,enum iteration_direction direction );
 void codaIteratorFree(coda_iterator I);
 void * coda_Next(coda_iterator I);
 void * coda_Prev(coda_iterator I);
+
 
 float coda_NextNum(coda_iterator I);
 float coda_PrevNum(coda_iterator I);

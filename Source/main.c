@@ -29,12 +29,12 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
-    graph_selftest1();
+    //graph_selftest1();
 
     
     //test_coda();
     
-    //coda_selfTest1();
+    coda_selfTest1();
     
     //uf_selftest();
     

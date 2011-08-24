@@ -44,6 +44,11 @@ int compare_float(void *, void *);
 
 /*-----------------FUNZIONI---------------*/
 #pragma mark - iterator
+
+/* L'iteratore va inizializzzato sulla coda subito prima del luo uso perche non tiene conto dei eventi occorsi prima o dopo la sua inizializzazione
+ 
+    per essere precisi non tiene conto dei elementi aggiunti in testa dopo l'inizializzazione nel caso del FORWARD e aggiunti in coda se BACKWARD
+ */
 coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_direction direction)
 {    
     coda_iterator I;
@@ -63,9 +68,15 @@ coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_directio
     I->Coda=C;
     
     I->status = OK;
-    //if (I->current == C->testa) I->status = B_STOP;
-    //if (I->current == C->coda)  I->status = F_STOP;
     return I;
+}
+
+void codaIteratorRewindFor(coda_iterator I,enum iteration_direction direction )
+{    
+    if (direction == FORWARD_ITERATION)
+        I->current= I->Coda->testa;
+    else
+        I->current= I->Coda->coda;
 }
 
 void codaIteratorFree(coda_iterator I){
@@ -333,21 +344,26 @@ void coda_selfTest1(void){
     float x;
     
     C = codaInitNumeric();
-    for (int i=0; i<5; i++) {
-        codaPushNum(C, i);
-    }
+    
+    codaPushNum(C, 99);
     
     puts("Iteratore avanti");
     I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
-    
-    while ((x=coda_NextNum(I))!=CODA_ITERATION_END) {
+    while ((x=coda_NextNum(I))!=CODA_ITERATION_END)
         printf(">%d\n",(int)x);
-    }
+    
+    for (int i=0; i<5; i++)
+        codaPushNum(C, i);
+    
+    puts("Iteratore avanti");
+    I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+    while ((x=coda_NextNum(I))!=CODA_ITERATION_END)
+        printf(">%d\n",(int)x);
     
     float *f, kk=4.0;
     f=&kk;
     
-    codaDelByCompare(C, f, compare_float);
+    codaDelByCompare(C, &kk, compare_float);
     
     puts("Iteratore indietro");
     
@@ -368,11 +384,11 @@ void coda_selfTest1(void){
 
     codaIteratorFree(I);
     
+    
+    
     puts("\n ---------\ninserrisco un singolo elemento e vedo se l'iterator va");
     
-    
     codaPushNum(C, 4);
-    //codaPushNum(C, 2);
     
     puts("Iteratore avanti");
     I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
@@ -381,8 +397,8 @@ void coda_selfTest1(void){
         printf(">%d\n",(int)x);
     }
     
-    puts("\n--------");
-    
+    codaIteratorFree(I);
+    puts("\n ---------\n");
     
     codaFree(C);
     

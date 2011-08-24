@@ -6,6 +6,8 @@ Done
 
 * [coda](http://it.wikipedia.org/wiki/Coda_%28informatica%29)
 * matrici
+* str2Int
+* UnionFind
 
 Todo
 -----
@@ -68,6 +70,23 @@ Questa Libreria permette di gestire code e stack in particolare implementa funzi
 
 La libreria è orientata al lavoro con i puntatori, ma può essere usata anche con i numeri 
 
+Esempio scorrimento
+
+	coda C;
+	C = codaInitNumeric();
+	for (int i=0; i<5; i++) 
+	        codaPushNum(C, i);
+	
+	I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+
+	while ( (x=coda_NextNum(I))!=CODA_ITERATION_END ) 
+			        printf(">%d\n",(int)x);
+
+	codaIteratorFree(I);
+	codaFree(C);
+	
+codaIteratorInit tiene  conto solo dello stato della coda al momento dell uso quindi va messo subito prima di ogni ciclo e comunque lontano da inerimenti e cancellazioni
+
 --- 
 	coda codaInit(void);
 	void codaFree(coda);
@@ -96,7 +115,15 @@ La libreria è orientata al lavoro con i puntatori, ma può essere usata anche c
 	
 	float coda_NextNum(coda_iterator I);
 	float coda_PrevNum(coda_iterator I);
+	
 ---
+
+### Graph.h ###
+
+
+
+
+
 
 
 
