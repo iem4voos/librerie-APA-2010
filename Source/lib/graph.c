@@ -37,7 +37,7 @@ struct graph_s {
     int nEdges;
     int nArchs;
     int maxEdges;
-    int isGraphOriented;
+    is_graph_oriented isGraphOriented;
     //coda C;
 };
 
@@ -54,7 +54,7 @@ int arch_compare(void * a, void * b){
     return 1;
 }
 
-graph graphInit(int maxEdges, int isOriented, int isWeithed){
+graph graphInit(int maxEdges, is_graph_oriented  isOriented, is_graph_weithed isWeithed){
     graph G;
     G=malloc(sizeof(struct graph_s));
     puts("graph allocated");
@@ -154,7 +154,7 @@ void  graphDelArch(graph G, int fromEdge, int toEdge){
     arches=G->adj[toEdge]->incoming_arcs;
     codaDelByCompare(arches, &a, graph_arch_compare);
     
-    if (G->isGraphOriented == 0) {
+    if (G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
         a.fromEdge=toEdge;  // sono inveriti
         a.toEdge=fromEdge;
         
@@ -167,14 +167,8 @@ void  graphDelArch(graph G, int fromEdge, int toEdge){
     
 }
 
-
-int  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
+int  graphAddArch_X(graph G, int fromEdge,   int toEdge, void *archInfo){
     struct arch_s * a;
-    
-    if (G->adj[fromEdge] == NULL || G->adj[toEdge] == NULL) {
-        puts("\nthe node du not exist");
-        return EXIT_FAILURE;
-    }
     
     //printf("adding arch %d-%d", fromEdge, toEdge);
     a=malloc(sizeof(struct arch_s));
@@ -191,17 +185,24 @@ int  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
     codaPushUnique(G->adj[fromEdge]->outgoing_arcs, a, arch_compare);
     codaPushUnique(G->adj[toEdge]  ->incoming_arcs, a, arch_compare);
     
-    if (!G->isGraphOriented) {
-        a=malloc(sizeof(struct arch_s));
-        a->fromEdge=toEdge;  // invertiti
-        a->toEdge=fromEdge;
-        a->user_info=archInfo;
-        
-        codaPushUnique(G->adj[toEdge]   ->outgoing_arcs, a,arch_compare);
-        codaPushUnique(G->adj[fromEdge] ->incoming_arcs, a,arch_compare);
+    G->nArchs++;
+    
+    return EXIT_SUCCESS;
+}
+
+int  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
+    //struct arch_s * a;
+    
+    if (G->adj[fromEdge] == NULL || G->adj[toEdge] == NULL) {
+        puts("\nthe node du not exist");
+        return EXIT_FAILURE;
     }
     
-    G->nArchs++;
+    graphAddArch_X(G, fromEdge, toEdge, archInfo);
+    
+    if ( G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
+       graphAddArch_X(G, toEdge, fromEdge, archInfo); 
+    }
     
     return EXIT_SUCCESS;
 }
@@ -234,34 +235,31 @@ int * graphGetEdges(graph G){
     return vet;
 }
 
-#warning pacco ?? se si perche?
+#warning pacco ?? se si perche? perche nel caso ce ne sia solo uno da zero e non il num
 // return NULL in case of Empty
-int * graphGetArchsFrom(graph G, int Edge){
-    coda C=G->adj[Edge]->outgoing_arcs;
+int * graphGetArchsFromEdge(graph G, int Edge)
+{
+    coda C;
     coda_iterator I;
     struct arch_s *arc;
-    int *vett;
-    int num_archi=codaCount(C);
+    int *vett,num_archi;
+    
+    C=G->adj[Edge]->outgoing_arcs;
+    num_archi=codaCount(C);
     
     if (num_archi==0) {
         return NULL;
     }
         
     vett=calloc(num_archi, sizeof(int));
-    //printf("\n allocato vettore %d elem", codaCount(C));
+    //printf("\n graphGetArchsFromEdge:  allocato vettore %d elem", codaCount(C));
     
     I= codaIteratorInit(C, NULL, FORWARD_ITERATION);
     
     for (int i=0; (arc=coda_Next(I)); i++)
         vett[i]=arc->toEdge;
 
-    
-    /*
-    while((arc=coda_Next(I))) {
-        vett[i]=arc->toEdge;
-        i++;
-    }
-    */
+
     codaIteratorFree(I);
     return vett;
 }
@@ -271,37 +269,42 @@ void graph_selftest1(void){
     
     puts("graph selftest");
     
-    G=graphInit(10, 0, 1);
+    G=graphInit(10, GRAPH_IS_NOT_ORIENTED, GRAPH_IS_WEIGHTD);
     
-    graphAddEdge(G, 3, NULL);
-    graphAddEdge(G, 1, NULL);
-    graphAddEdge(G, 5, NULL);
-    graphAddEdge(G, 2, NULL);
+    for (int i=1; i<6; i++) {
+        graphAddEdge(G, i, NULL);
+    }
+
+    graphAddEdge(G, 10, NULL);
     
-    graphAddArch(G, 1, 5, NULL);
-    graphAddArch(G, 1, 1, NULL);
-    graphAddArch(G, 1, 3, NULL);
+    for (int i=1; i<6; i+=1)
+    {
+        graphAddArch(G, 1, i, NULL);
+    }
     
-    graphAddArch(G, 5, 3, NULL);
-    graphAddArch(G, 5, 1, NULL);
+    graphAddArch(G, 10, 3, NULL);
     
-    //graphAddArch(G, 4, 3, NULL);
-    
-    puts("rimuovo arco 1 5");
+    puts("\nrimuovo arco 1 5");
     graphDelArch(G, 1, 5);
     
     int *vett= graphGetEdges(G);
     int *archi;
     
-    printf("numero di nodi: %d", graphCountEdges(G));
+    printf("\nnumero di nodi: %d\n", graphCountEdges(G));
     
     for (int i=0; i< graphCountEdges(G); i++) {
-        printf("\n nodo:> %d", vett[i]);
-        archi= graphGetArchsFrom(G, vett[i]);
-        for (int j=0; j< graphCountArchsFromEdge(G, vett[i]); j++) {
-            printf("--> %d ,", archi[j]);
+        
+        printf("\n nodo:> %3d (%d) |", vett[i], graphCountArchsFromEdge(G, vett[i]));
+        
+        if ( (archi= graphGetArchsFromEdge(G, vett[i])) != NULL ){
+            for (int j=0; j< graphCountArchsFromEdge(G, vett[i]); j++) {
+                printf(" -->%3d", archi[j]);
+            }
         }
+        
     }
+    
+    
     
     puts("\ngraph selftest END");
     

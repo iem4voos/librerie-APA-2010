@@ -11,11 +11,23 @@
 
 #define Mic_graph_USE_ADJ_LIST 1
 
+typedef enum is_graph_weithed_e {
+    GRAPH_IS_WEIGHTD,
+    GRAPH_IS_NOT_WEIGTHED
+} is_graph_weithed;
+
+typedef enum is_graph_oriented_e {
+    GRAPH_IS_ORIENTED,
+    GRAPH_IS_NOT_ORIENTED
+} is_graph_oriented;
+
+
+
 //#include "coda.h"
 
 typedef struct graph_s * graph;
 
-graph graphInit(int nEdges, int isOriented, int isWeithed);
+graph graphInit(int nEdges, is_graph_oriented , is_graph_weithed);
 int   graphAddEdge(graph, int edge, void *edgeInfo);
 void  graphDelEdge(graph G, int edge);
 

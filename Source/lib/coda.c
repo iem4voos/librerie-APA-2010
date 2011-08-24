@@ -62,8 +62,9 @@ coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_directio
     }
     I->Coda=C;
     
-    if (I->current == C->testa) I->status = B_STOP;
-    if (I->current == C->coda)  I->status = F_STOP;
+    I->status = OK;
+    //if (I->current == C->testa) I->status = B_STOP;
+    //if (I->current == C->coda)  I->status = F_STOP;
     return I;
 }
 
@@ -73,9 +74,11 @@ void codaIteratorFree(coda_iterator I){
 
 void * coda_Next(coda_iterator I){
     item_t pt;
+    
     // se e arrivato alla fine e sussistono errori rituena null
     if ( I==NULL || (pt = I->current) == NULL || I->status == F_STOP  )
         return NULL;
+    
     // se e arrivato alll ultimo si ferma e le prissime chiamate risponde null
     if ( pt->next == NULL) {
         I->status=F_STOP;
@@ -357,13 +360,30 @@ void coda_selfTest1(void){
     codaDelNum(C, 1);
     codaDelNum(C, 0);
     
-    puts("svuoto la coda");
+    puts("\nsvuoto la coda");
     for (int i=0; !codaIsEmpty(C); i++) {
         printf("%d\n", (int)codaGetNum(C) );
         //printf("%d\n", (int)codaPopNum(C) );
     }
 
     codaIteratorFree(I);
+    
+    puts("\n ---------\ninserrisco un singolo elemento e vedo se l'iterator va");
+    
+    
+    codaPushNum(C, 4);
+    //codaPushNum(C, 2);
+    
+    puts("Iteratore avanti");
+    I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+
+    while ((x=coda_NextNum(I))!=CODA_ITERATION_END) {
+        printf(">%d\n",(int)x);
+    }
+    
+    puts("\n--------");
+    
+    
     codaFree(C);
     
     return;
