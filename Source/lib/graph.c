@@ -20,8 +20,8 @@ int arch_compare(void *, void *);
 
 struct edge_s {
     int num;
-    coda adj_from;
-    coda adj_to;
+    coda incoming_arcs;
+    coda outgoing_arcs;
     void * user_info;
 };
 
@@ -54,16 +54,16 @@ int arch_compare(void * a, void * b){
     return 1;
 }
 
-graph graphInit(int nEdges, int isOriented, int isWeithed){
+graph graphInit(int maxEdges, int isOriented, int isWeithed){
     graph G;
     G=malloc(sizeof(struct graph_s));
     puts("graph allocated");
     G->isGraphOriented=isOriented;
     G->nEdges   =G->nArchs=0;
-    G->maxEdges =nEdges;
-    G->adj      =calloc(nEdges, sizeof(struct edge_s *));
+    G->maxEdges =maxEdges;
+    G->adj      =calloc(maxEdges, sizeof(struct edge_s *));
     puts("allocated the vector of edges");
-    for (int i=0; i<nEdges; G->adj[i++]=NULL); //initialize adj to null
+    for (int i=0; i<maxEdges; G->adj[i++]=NULL); //initialize adj to null
     puts("edges initialized to null");
     return G;
 }
@@ -106,8 +106,8 @@ int graphAddEdge(graph G, int edgeNum,    void *edgeInfo){
     E=malloc(sizeof(struct edge_s));
     E->num=edgeNum;
     E->user_info=edgeInfo;
-    E->adj_from=codaInit();
-    E->adj_to=codaInit();
+    E->incoming_arcs=codaInit();
+    E->outgoing_arcs=codaInit();
     //puts("edge created");
     
     G->adj[edgeNum]=E;
@@ -120,43 +120,65 @@ int graphAddEdge(graph G, int edgeNum,    void *edgeInfo){
 
 
 void  graphDelEdge(graph G, int edge){
-    codaFree(G->adj[edge]->adj_from);
-    codaFree(G->adj[edge]->adj_to);
+    codaFree(G->adj[edge]->incoming_arcs);
+    codaFree(G->adj[edge]->outgoing_arcs);
     //free(G->adj[edge]);
     G->adj[edge]=NULL;
 }
 
-#warning "da fare"
+
+
+int graph_arch_compare(void *a, void *b){
+    struct arch_s *uno, *due;
+    uno = (struct arch_s *)a;
+    due= (struct arch_s *)b;
+    
+    if (uno->fromEdge == due->fromEdge && uno->toEdge == due->toEdge) {
+        return 0;
+    }
+    return 1;
+}
+#warning "controllare : la parte non orientata non va!!
 
 void  graphDelArch(graph G, int fromEdge, int toEdge){
     //
-    coda tmpC;
-    tmpC=codaInit();
-    struct arch_s *a;
+    coda arches;
+    struct arch_s a;
     
-    while ((a = codaGet(G->adj[fromEdge]->adj_to)))
-        if (a->toEdge == toEdge && a->fromEdge == fromEdge)
-            G->nEdges--;
-        else
-            codaPush(tmpC, a); // push it back
-    G->adj[fromEdge]->adj_to=tmpC;
-    codaFree(tmpC);
-    tmpC=codaInit();
-    while ((a = codaGet(G->adj[toEdge]->adj_from)))
-        if (a->toEdge == toEdge && a->fromEdge == fromEdge)
-            G->nEdges--;
-        else
-            codaPush(tmpC, a); // push it back
-    G->adj[fromEdge]->adj_from=tmpC;
-    free(a);
+    a.fromEdge=fromEdge;
+    a.toEdge=toEdge;
+    
+    arches=G->adj[fromEdge]->outgoing_arcs;
+    codaDelByCompare(arches, &a, graph_arch_compare);
+    
+    arches=G->adj[toEdge]->incoming_arcs;
+    codaDelByCompare(arches, &a, graph_arch_compare);
+    
+    if (G->isGraphOriented == 0) {
+        a.fromEdge=toEdge;  // sono inveriti
+        a.toEdge=fromEdge;
+        
+        arches=G->adj[toEdge]->outgoing_arcs;
+        codaDelByCompare(arches, &a, graph_arch_compare);
+        
+        arches=G->adj[fromEdge]->incoming_arcs;
+        codaDelByCompare(arches, &a, graph_arch_compare);
+    }
+    
 }
 
 
-void  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
+int  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
     struct arch_s * a;
+    
+    if (G->adj[fromEdge] == NULL || G->adj[toEdge] == NULL) {
+        puts("\nthe node du not exist");
+        return EXIT_FAILURE;
+    }
     
     //printf("adding arch %d-%d", fromEdge, toEdge);
     a=malloc(sizeof(struct arch_s));
+    
     a->fromEdge=fromEdge;
     a->toEdge=toEdge;
     a->user_info=archInfo;
@@ -166,8 +188,8 @@ void  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
     graph_checkSizeOrGrow(G,toEdge);
     
     //puts("pushing the edge to G->adj[]->X");
-    codaPushUnique(G->adj[fromEdge]->adj_to,   a, arch_compare);
-    codaPushUnique(G->adj[toEdge]  ->adj_from, a, arch_compare);
+    codaPushUnique(G->adj[fromEdge]->outgoing_arcs, a, arch_compare);
+    codaPushUnique(G->adj[toEdge]  ->incoming_arcs, a, arch_compare);
     
     if (!G->isGraphOriented) {
         a=malloc(sizeof(struct arch_s));
@@ -175,12 +197,13 @@ void  graphAddArch(graph G, int fromEdge,   int toEdge, void *archInfo){
         a->toEdge=fromEdge;
         a->user_info=archInfo;
         
-        codaPushUnique(G->adj[toEdge]  ->adj_to,   a,arch_compare);
-        codaPushUnique(G->adj[fromEdge]->adj_from, a,arch_compare);
+        codaPushUnique(G->adj[toEdge]   ->outgoing_arcs, a,arch_compare);
+        codaPushUnique(G->adj[fromEdge] ->incoming_arcs, a,arch_compare);
     }
     
     G->nArchs++;
     
+    return EXIT_SUCCESS;
 }
 
 int graphCountEdges(graph G){
@@ -188,11 +211,11 @@ int graphCountEdges(graph G){
 }
 
 int graphCountArchsFromEdge(graph G, int edge){
-    return codaCount( G->adj[edge]->adj_to);
+    return codaCount( G->adj[edge]->outgoing_arcs);
 }
 
 int graphCountArchsToEdge(graph G, int edge){
-    return codaCount( G->adj[edge]->adj_from);
+    return codaCount( G->adj[edge]->incoming_arcs);
 }
 
 int * graphGetEdges(graph G){
@@ -211,24 +234,34 @@ int * graphGetEdges(graph G){
     return vet;
 }
 
-#warning pacco
+#warning pacco ?? se si perche?
+// return NULL in case of Empty
 int * graphGetArchsFrom(graph G, int Edge){
-    coda C=G->adj[Edge]->adj_to;
+    coda C=G->adj[Edge]->outgoing_arcs;
     coda_iterator I;
     struct arch_s *arc;
     int *vett;
-    int i=0;
+    int num_archi=codaCount(C);
+    
+    if (num_archi==0) {
+        return NULL;
+    }
         
-    vett=calloc(codaCount(C), sizeof(int));
-    printf("\n allocato vettore %d elem", codaCount(C));
+    vett=calloc(num_archi, sizeof(int));
+    //printf("\n allocato vettore %d elem", codaCount(C));
     
     I= codaIteratorInit(C, NULL, FORWARD_ITERATION);
     
+    for (int i=0; (arc=coda_Next(I)); i++)
+        vett[i]=arc->toEdge;
+
     
-    while ((arc=coda_Next(I))) {
+    /*
+    while((arc=coda_Next(I))) {
         vett[i]=arc->toEdge;
         i++;
     }
+    */
     codaIteratorFree(I);
     return vett;
 }
@@ -238,7 +271,7 @@ void graph_selftest1(void){
     
     puts("graph selftest");
     
-    G=graphInit(10, 1, 1);
+    G=graphInit(10, 0, 1);
     
     graphAddEdge(G, 3, NULL);
     graphAddEdge(G, 1, NULL);
@@ -248,6 +281,11 @@ void graph_selftest1(void){
     graphAddArch(G, 1, 5, NULL);
     graphAddArch(G, 1, 1, NULL);
     graphAddArch(G, 1, 3, NULL);
+    
+    graphAddArch(G, 5, 3, NULL);
+    graphAddArch(G, 5, 1, NULL);
+    
+    //graphAddArch(G, 4, 3, NULL);
     
     puts("rimuovo arco 1 5");
     graphDelArch(G, 1, 5);
@@ -265,7 +303,7 @@ void graph_selftest1(void){
         }
     }
     
-    puts("graph selftest END");
+    puts("\ngraph selftest END");
     
 }
 

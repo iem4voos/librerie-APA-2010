@@ -3,12 +3,13 @@
 #ifndef coda_h
 #define coda_h
 
-#include <float.h>  
+#include <float.h>  // tu use constant FLT_MIN
 #include <stdlib.h>
 #include <stdio.h>
 
 #define DEBUG 1
 #define CODA_ITERATION_END FLT_MIN
+#define CODA_FLOAT_ERROR FLT_MIN
 
 enum iteration_direction {
     FORWARD_ITERATION = 1,
@@ -17,8 +18,6 @@ enum iteration_direction {
 
 typedef struct coda_s * coda;
 typedef struct iterator_s * coda_iterator;
-
-
 
 
 /*
@@ -30,21 +29,13 @@ typedef struct iterator_s * coda_iterator;
  
  */
 
-//void codaAppend(coda , void * elemento);
-
 coda codaInit(void);
 void codaFree(coda);
 void codaPush(coda , void * elemento);
 void * codaGet(coda);
 void * codaPop(coda);
-
-
-void codaPushUnique(coda , void * elemento, int (*funcPtCompare)(void *, void *));
-
-// the new one!!!
-void * codaDelByCompare(coda , void * elemento, int (*funcPtCompare)(void *, void *));
-
-//void * codaDelByElement(coda , void * elemento);
+void codaPushUnique(coda , void *elem, int (*compare)(void *, void *));
+void * codaDelByCompare(coda , void * elem, int (*compare)(void *, void *));
 
 int codaCount(coda);
 int codaIsEmpty(coda C);
@@ -54,6 +45,7 @@ coda codaInitNumeric(void);
 void codaPushNum(coda C, float num);
 float codaPopNum(coda C);
 float codaGetNum(coda c);
+float codaDelNum(coda , float);
 
 coda_iterator codaIteratorInit(coda C, void * element, enum iteration_direction);
 void codaIteratorFree(coda_iterator I);

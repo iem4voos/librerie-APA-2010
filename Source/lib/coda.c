@@ -33,12 +33,14 @@ struct item_s {
 } ;
 
 struct coda_s {
-    double z,s,d,f,g;
     int nElem;
     item * testa;
     item * coda;
     enum boolean isNumeric;
 };
+
+/*-------protopipi locali-------*/
+int compare_float(void *, void *);
 
 /*-----------------FUNZIONI---------------*/
 #pragma mark - iterator
@@ -173,18 +175,20 @@ void codaPushUnique(coda C, void * elemento, int (*funcPtCompare)(void *, void *
 
 
 void codaPush(coda C, void * elemento){
-    struct item_s *I;
-    I = malloc(sizeof(struct item_s));
-    I->item=elemento;
-    I->prev = NULL;
-    I->next = C->testa;
+    struct item_s *i;
     
-    if (C->nElem ==0 ) {
-        C->coda= I;
+    i = malloc(sizeof(struct item_s));
+    i->item=elemento;
+    i->prev = NULL;
+    
+    i->next = C->testa; // perche si mette lui in testA, se e vuota la testa e null
+    
+    if (C->nElem ==0 ) {  // questo e il primo elento
+        C->coda= i;
     }else{
-        C->testa->prev=I;
+        i->next->prev=i;
     }
-    C->testa = I;
+    C->testa = i;
     C->nElem ++;
 }
 
@@ -213,6 +217,50 @@ void * codaPop(coda C){
     C->coda=C->coda->prev;
     C->nElem--;
     return i;
+}
+
+/*  return NULL se non trova elemento
+ *  contronta tutti gli elementi della lista usando la funzione compare
+ *
+ *   coda C, - coda nella quale controlle e estrae
+ *   void * elemento  elemento che viene passato a "compare"
+ *  comapre () must return 0 if equal 1 if diversi;
+ */
+
+void * codaDelByCompare(coda C, void * elemento, int (*funcPtCompare)(void *, void *))
+{
+    struct item_s * x;
+    void * the_item_content;
+    
+    for (x=C->testa; x!=NULL && funcPtCompare(x->item, elemento) !=0 ; x=x->next) ;
+    
+     puts("coda: rimozione elemento da....");
+    
+    if (x==C->testa) {  // element on top
+        if(C->testa!=C->coda){
+            C->testa = x->next;
+            x->next->prev=NULL;
+        }else{
+            C->testa=C->coda=NULL;
+        }
+        puts("testa");
+    }else if(x== C->coda ){     // element on bottom
+        C->coda=x->prev;
+        x->prev->next=NULL;
+        puts("coda");
+    }else if(x==NULL){          // NO element Found
+        puts("oltre la fine");
+        return NULL;        //..can exit in another point! pointers must exist
+    }else{                      // the element is in middle
+        x->next->prev=x->prev;
+        x->prev->next=x->next;
+        puts("middle");
+    }
+    
+    the_item_content= x->item;
+    free(x);
+    C->nElem--;
+    return the_item_content;
 }
 
 #pragma mark - Numeric
@@ -251,6 +299,29 @@ float codaPopNum(coda C){
     
 }
 
+int compare_float(void *a, void *b){
+    if ( *(float *)a == *(float *)b)
+        return 0;
+    else
+        return 1;
+}
+
+/*  On error or not found return CODA_FLOAT_ERROR
+ *  works on numeric coda codaInitNumeric(void);
+*/
+float codaDelNum(coda C, float num){
+    float *f,x;
+    f= codaDelByCompare(C, &num, compare_float);
+    
+    if (f==NULL) {
+        if(DEBUG)printf("the numer not exist");
+        return CODA_FLOAT_ERROR ;
+    }
+    x=*f;
+    printf("canecellato %.2f",x);
+    return x;
+}
+
 #pragma mark - test
 
 void coda_selfTest1(void){
@@ -269,11 +340,22 @@ void coda_selfTest1(void){
     while ((x=coda_NextNum(I))!=CODA_ITERATION_END) {
         printf(">%d\n",(int)x);
     }
+    
+    float *f, kk=4.0;
+    f=&kk;
+    
+    codaDelByCompare(C, f, compare_float);
+    
     puts("Iteratore indietro");
     
     while ((x=coda_PrevNum(I))!=CODA_ITERATION_END) {
         printf(">%d\n",(int)x);
     }
+    
+    codaDelNum(C, 3);
+    codaDelNum(C, 2);
+    codaDelNum(C, 1);
+    codaDelNum(C, 0);
     
     puts("svuoto la coda");
     for (int i=0; !codaIsEmpty(C); i++) {
@@ -287,78 +369,12 @@ void coda_selfTest1(void){
     return;
 }
 
-//void codaDelSelected(coda C, void * elemento)
 
-#warning "da fare o almeno cotrollare"
-/*
 
-void * codaDelByElement(coda C , void * elemento){
-    
-    struct item_s * tmp;
-    void *pt;
-    
-    if (C->testa->item == elemento) {
-        C->testa=C->testa->next;
-        C->testa->prev=NULL;
-    }
-    
-    if (C->coda->item == elemento) {
-        C->coda=C->testa->prev;
-        C->testa->next=NULL;
-    }
-    
-    for (tmp=C->testa->next;
-         tmp->next != C->coda && tmp->item!=elemento;
-         tmp=tmp->next); 
-    
-    if (tmp->item==elemento) {
-        tmp->next->prev=tmp->prev;
-        tmp->prev->next=tmp->next;
-        C->nElem--;
-        pt=tmp->item;
-        free(tmp);
-        puts("coda: rimosso elemento");
-        return pt;
-    }
-    puts("coda: elemento non trovato per rimoxione");
-    return NULL;
-}
-*/
 
-/* return NULL se non trova elemento
- *  contronta tutti gli elementi della lista usando la funzione compare e l'elemento
- */
 
-void * codaDelByCompare(coda C, void * elemento, int (*funcPtCompare)(void *, void *)){
 
-    struct item_s * x;
-    void * the_item;
-    
-    //scorre la lista, se trova un elemento uguale si ferma con in X memorizzato l'elemento corrente
-    for (x=C->testa; x!=NULL; x=x->next) {
-        if (funcPtCompare(x->item, elemento) ==0 ) {
-            break;
-        }
-    }
-    
-    if (x==C->testa) {
-        C->testa = x->next;
-        x->next->prev=NULL;
-    }else if(x== C->coda ){
-        C->coda=x->prev;
-        x->prev->next=NULL;
-    }else if(x==NULL){
-        return NULL;         //can exit in another point
-    }else{
-    // the element is in middle
-        x->next->prev=x->prev;
-        x->prev->next=x->next;
-    }
-    
-    the_item= x->item;
-    free(x);
-    return the_item;
-}
+
 
 
 

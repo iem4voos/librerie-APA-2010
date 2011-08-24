@@ -19,7 +19,7 @@ graph graphInit(int nEdges, int isOriented, int isWeithed);
 int   graphAddEdge(graph, int edge, void *edgeInfo);
 void  graphDelEdge(graph G, int edge);
 
-void  graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
+int  graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
 void  graphDelArch(graph G, int fromEdge, int toEdge);
 
 
