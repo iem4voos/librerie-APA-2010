@@ -25,6 +25,7 @@ typedef struct heap_bin_s {
     int maxSize;
     void **array;
     int (*keyOf)(void *);
+    heap_get_what maxOrMin;
 } * heap_bin_t;
 
 /*  ----  Local Functions -------*/
@@ -39,7 +40,7 @@ int heap_checkSizeOrGrow(heap H);
 
 #pragma mark - Functions
 
-heap_bin_t heapInit(int size,int (*keyOfElement )(void *)){
+heap_bin_t heapInit(int size,int (*keyOfElement )(void *), heap_get_what maxOrMin){
     
     heap_bin_t H;
     
@@ -56,13 +57,13 @@ heap_bin_t heapInit(int size,int (*keyOfElement )(void *)){
     H->keyOf=keyOfElement;
     H->maxSize=size;
     H->heapSize=0;
+    H->maxOrMin=maxOrMin;
     H->array= calloc(size, sizeof(void *));
     
     if (H->array==NULL) {
         puts("\nheap: ERRRORE ALLOCAZIONE MEMORIA\n");
         return NULL;
     }
-    
     return H;
 }
 
@@ -117,20 +118,22 @@ void heapInsert(heap_bin_t H, void * element)
  	i = H->heapSize++;
     //printf("proto dimensione heap a %d, i= %d", H->heapSize,i);
     
-    while(i>=1 && key(A[PARENT(i)])<key(element)   )
-    {
-        A[i] = A[PARENT(i)];
-        //printf("\n scambio a[%d]con a[%d] perche %d > %d",i, PARENT(i), key(element), key(A[PARENT(i)]) );
-        //i = (i-1)/2;
-        i=PARENT(i);
-        //printf("\n i= %d ", PARENT(i));
-    }
-	A[i] = element;
-    /*printf("\n metto l'elemento");
-    //test_print_item(element);
-    printf(" in pos %d\n",i);
-     */
+    if (H->maxOrMin == HEAP_GET_MAX)
+        while(i>=1 && key(A[PARENT(i)]) < key(element) ){
+            A[i] = A[PARENT(i)];
+            i=PARENT(i);
+        }
+    else
+        while(i>=1 && key(A[PARENT(i)]) > key(element) ){
+            A[i] = A[PARENT(i)];
+            i=PARENT(i);
+        }
     
+
+    
+    
+	A[i] = element;
+
     heapBuild(H);
 	return;
 }
@@ -138,7 +141,7 @@ void heapInsert(heap_bin_t H, void * element)
 
 void heapHeapify(heap_bin_t H, int i)
 {
-    int l, r, largest;
+    int l, r, largestOrSmalest;
     int heapsize=H->heapSize;
     void **A=H->array;
     int (*key)(void *)=H->keyOf;
@@ -146,16 +149,26 @@ void heapHeapify(heap_bin_t H, int i)
     l = LEFT(i);
     r = RIGHT(i); 
     
-    if ( l < heapsize && key(A[l])>key(A[i])) 
-        largest=l;
-    else largest = i;
+    if (H->maxOrMin == HEAP_GET_MAX)
+    {
+        if ( l < heapsize && key(A[l]) > key(A[i])) 
+            largestOrSmalest=l;
+        else largestOrSmalest = i;
+        
+        if (r < heapsize && key(A[r]) > key(A[largestOrSmalest])) 
+            largestOrSmalest=r;
+    }else{
+        if ( l < heapsize && key(A[l]) < key(A[i])) 
+            largestOrSmalest=l;
+        else largestOrSmalest = i;
+        
+        if (r < heapsize && key(A[r]) < key(A[largestOrSmalest])) 
+            largestOrSmalest=r;
+    }
     
-    if (r < heapsize && key(A[r])>key(A[largest])) 
-        largest=r;
-    
-    if (largest != i) {
-		heapSwap(H,i,largest);
-		heapHeapify(H,largest);
+    if (largestOrSmalest != i) {
+		heapSwap(H,i,largestOrSmalest);
+		heapHeapify(H,largestOrSmalest);
     }
     return;
 } 
@@ -171,13 +184,13 @@ void heapBuild (heap_bin_t H)
 	return;
 }
 
-void * heapExtractMax(heap_bin_t H){
+void * heapExtract(heap_bin_t H){
     void * x;
     void **A=H->array;
     
     x=A[0];
-    A[0]=A[H->heapSize];
     H->heapSize--;
+    A[0]=A[H->heapSize];
     
     heapBuild(H);
     
@@ -217,7 +230,7 @@ void heapSelf(void){
     puts("HEAP SELFTEST\n");
     
     heap_bin_t H;
-    H=heapInit(10, testKeyOf);
+    H=heapInit(10, testKeyOf, HEAP_GET_MIN);
     
     int testArray[ZZZ+3];
     
@@ -233,7 +246,7 @@ void heapSelf(void){
     puts("+++++++++++++++");
     
     for (int i=0; i< ZZZ; i++)
-        printf("<-- %d\n", *((int *)heapExtractMax(H)));
+        printf("<-- %d\n", *((int *)heapExtract(H)));
      
     
     puts(" end: HEAP SELFTEST\n");

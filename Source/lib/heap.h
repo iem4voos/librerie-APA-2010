@@ -11,9 +11,14 @@
 
 typedef struct heap_bin_s * heap ;
 
-heap heapInit(int size,int (*keyOfElement )(void *));
+typedef enum heap_get_what_e{
+    HEAP_GET_MAX,
+    HEAP_GET_MIN
+} heap_get_what;
+
+heap heapInit(int size,int (*keyOfElement )(void *),heap_get_what);
 void heapInsert(heap H, void * element);
-void * heapExtractMax(heap H);
+void * heapExtract(heap H);
 
 void heapSelf(void);
 
