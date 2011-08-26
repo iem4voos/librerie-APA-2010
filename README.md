@@ -66,7 +66,9 @@ Questa Libreria permette di gestire code e stack in particolare implementa funzi
 + cancellazione
 	- **codaDelByCompare** : cancella un elemento mediante confronto
 + scorrimento
+	- **IteratorInit** : crea un elementoo che e possibile usare per scorrere la lista elemento per elemento
 	- **Next**(Prev) : permette di accedere all'elemento sucessivo(precedente)
+	- **IteratorRewind** : ri-posiziona l'"Itarator" all'inizio o alla fine della lista.
 
 La libreria è orientata al lavoro con i puntatori, ma può essere usata anche con i numeri 
 
@@ -120,12 +122,44 @@ codaIteratorInit tiene  conto solo dello stato della coda al momento dell uso qu
 
 ### Graph.h ###
 
+Permette di creare un grafo pesato o non sul quale e possibile eseguire operazioni elementari.
+
+1. generiche
+	+ **Init** : predispone la struttura per momorizzare un certo numero di nodi (che aumenta automaticamente se serve), si dichiara se il grafo è pesato o meno o orientato
++ sui nodi
+	+ **CountEdges** : conta i nodi
+	+ **GetEdges** : restituisce un vettore con tutti i nodi
+	+ ****
++ sui archi
+	+ **AddArch** : aggiunge un arco tra due nodi con la possibilita di aggiungere un puntatore con le informazioni come peso o altro
+	+ **DelArch** : cancella un arco
+	+ **GetArchsFrom** : restituisce un vettore con i nodi raggiungibili da un certo nodo
+
+---
+
+	graph graphInit(int nEdges, is_graph_oriented , is_graph_weithed);
+	int   graphAddEdge(graph, int edge, void *edgeInfo);
+	void  graphDelEdge(graph G, int edge);
+
+	int  graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
+	void  graphDelArch(graph G, int fromEdge, int toEdge);
 
 
+	int graphCountEdges(graph G);
+	int * graphGetEdges(graph);
+	int * graphGetArchsFrom(graph, int Edge);
+
+---
+
+### heap.h ###
+permette di creare e di usare un heap. gli elementi gestiti sono puntatori il cui "valore"(proprità) è data dalla funzione passata durante l'inizializzazione
 
 
+---
 
-
+	heap heapInit(int size,int (*keyOfElement )(void *));
+	void heapInsert(heap H, void * element);
+	void * heapExtractMax(heap H);
 
 ---
 ###### note ######

@@ -53,19 +53,16 @@ coda_iterator codaIteratorInit ( coda C, void * element, enum iteration_directio
 {    
     coda_iterator I;
     I=malloc(sizeof(struct iterator_s));
-    if (element == NULL) 
-    {
-        if (direction == FORWARD_ITERATION)
-            I->current= C->testa;
-        else
-            I->current= C->coda;
+    I->Coda=C;
+    
+    if (element == NULL){
+        codaIteratorRewindFor(I,direction);
     }else{
         // need more testiong
         struct item_s * pt;
         for (pt=C->testa; pt->item!=element || pt!=C->coda; pt=pt->next) ;
         I->current=pt;
     }
-    I->Coda=C;
     
     I->status = OK;
     return I;

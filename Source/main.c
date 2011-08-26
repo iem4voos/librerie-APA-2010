@@ -9,7 +9,8 @@
 #include "lib/str2int.h"
 #include "lib/coda.h"
 #include "lib/union-find.h"
-#include "LIB/graph.h"
+#include "lib/graph.h"
+#include "lib/heap.h"
 
 #define macro(stringa) sizeof(#stringa)
  
@@ -29,12 +30,15 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
+    heapSelf();
+
+    
     //graph_selftest1();
 
     
     //test_coda();
     
-    coda_selfTest1();
+    //coda_selfTest1();
     
     //uf_selftest();
     

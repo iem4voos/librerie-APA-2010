@@ -22,22 +22,23 @@ typedef enum is_graph_oriented_e {
 } is_graph_oriented;
 
 
-
-//#include "coda.h"
-
 typedef struct graph_s * graph;
 
 graph graphInit(int nEdges, is_graph_oriented , is_graph_weithed);
+
 int   graphAddEdge(graph, int edge, void *edgeInfo);
 void  graphDelEdge(graph G, int edge);
 
-int  graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
+int   graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
 void  graphDelArch(graph G, int fromEdge, int toEdge);
 
 
 int graphCountEdges(graph G);
 int * graphGetEdges(graph);
-int * graphGetArchsFrom(graph, int Edge);
+int * graphGetArchsFromEdge(graph, int Edge);
+
+int graphCountArchsFromEdge(graph G, int edge);
+int graphCountArchsToEdge(graph G, int edge);
 
 void graph_selftest1(void);
 
