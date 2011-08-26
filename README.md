@@ -154,10 +154,12 @@ Permette di creare un grafo pesato o non sul quale e possibile eseguire operazio
 ### heap.h ###
 permette di creare e di usare un heap. gli elementi gestiti sono puntatori il cui "valore"(proprità) è data dalla funzione passata durante l'inizializzazione
 
+in oltre si puo scegliere se l'heap restituisce il minimo o il massimo elemento
+
 
 ---
 
-	heap heapInit(int size,int (*keyOfElement )(void *));
+	heap heapInit(int size,int (*keyOfElement )(void *),heap_get_what);
 	void heapInsert(heap H, void * element);
 	void * heapExtractMax(heap H);
 
