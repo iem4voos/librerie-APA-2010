@@ -11,6 +11,7 @@
 #include "lib/union-find.h"
 #include "lib/graph.h"
 #include "lib/heap.h"
+#include "lib/graph-algoritm-test.h"
 
 #define macro(stringa) sizeof(#stringa)
  
@@ -30,22 +31,15 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
-    heapSelf();
-
+    bfs_selftest1();
     
+    //heapSelf();
     //graph_selftest1();
-
-    
     //test_coda();
-    
     //coda_selfTest1();
-    
     //uf_selftest();
-    
     //assert( macro(char) == sizeof(char) );
-    
     //test_matrici();
-    
     //test_int2str();
     puts("fine");
     

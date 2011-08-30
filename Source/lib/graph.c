@@ -212,7 +212,10 @@ int graphCountEdges(graph G){
 }
 
 int graphCountArchsFromEdge(graph G, int edge){
-    return codaCount( G->adj[edge]->outgoing_arcs);
+    if (G->adj[edge] == NULL) 
+        return 0;
+    
+    return codaCount( G->adj[edge]->outgoing_arcs);   
 }
 
 int graphCountArchsToEdge(graph G, int edge){
@@ -244,6 +247,11 @@ int * graphGetArchsFromEdge(graph G, int Edge)
     struct arch_s *arc;
     int *vett,num_archi;
     
+    // aggiunto secodo criterio - testare
+    if (G->nEdges < Edge || G->adj[Edge] == NULL) {
+        return NULL;
+    }
+    
     C=G->adj[Edge]->outgoing_arcs;
     num_archi=codaCount(C);
     
@@ -264,7 +272,7 @@ int * graphGetArchsFromEdge(graph G, int Edge)
     return vett;
 }
 
-void graph_selftest1(void){
+graph graph_selftest1(void){
     graph G;
     
     puts("graph selftest");
@@ -301,13 +309,10 @@ void graph_selftest1(void){
                 printf(" -->%3d", archi[j]);
             }
         }
-        
     }
     
-    
-    
     puts("\ngraph selftest END");
-    
+    return G;
 }
 
 //#endif

@@ -42,6 +42,7 @@ struct coda_s {
 /*-------protopipi locali-------*/
 int compare_float(void *, void *);
 
+
 /*-----------------FUNZIONI---------------*/
 #pragma mark - iterator
 
@@ -134,6 +135,9 @@ float coda_PrevNum(coda_iterator I){
 #pragma mark - generic
 
 int codaCount(coda C){
+    if (C==0) 
+        return 0;
+    
     return C->nElem;
 }
 

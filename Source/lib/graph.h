@@ -35,11 +35,13 @@ void  graphDelArch(graph G, int fromEdge, int toEdge);
 
 int graphCountEdges(graph G);
 int * graphGetEdges(graph);
-int * graphGetArchsFromEdge(graph, int Edge);
+int * graphGetArchsFromEdge(graph, int Edge); // int a dove arriva
 
 int graphCountArchsFromEdge(graph G, int edge);
 int graphCountArchsToEdge(graph G, int edge);
 
-void graph_selftest1(void);
+#warning graph free missing
+
+graph graph_selftest1(void);
 
 #endif
