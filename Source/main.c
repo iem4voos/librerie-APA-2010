@@ -34,8 +34,9 @@ int main(void){
     //bfs_selftest1();
     
     //heapSelf();
-    //graph_selftest1();
-    test_coda();
+    graph G= graph_selftest1();
+    graphFree(G);
+    //test_coda();
     //coda_selfTest1();
     //uf_selftest();
     //assert( macro(char) == sizeof(char) );
