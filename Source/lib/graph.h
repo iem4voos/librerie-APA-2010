@@ -24,23 +24,23 @@ typedef enum is_graph_oriented_e {
 
 typedef struct graph_s * graph;
 
-graph graphInit(int nEdges, is_graph_oriented , is_graph_weithed);
+graph graphInit(int nNodes, is_graph_oriented , is_graph_weithed);
+void graphFree(graph G);
 
-int   graphAddEdge(graph, int edge, void *edgeInfo);
-void  graphDelEdge(graph G, int edge);
+int   graphAddNode(graph, int edge, void *edgeInfo);
+void  graphDelNode(graph G, int edge);
 
-int   graphAddArch(graph G, int fromEdge, int toEdge, void *archInfo);
-void  graphDelArch(graph G, int fromEdge, int toEdge);
+int   graphAddArch(graph G, int fromEdge, int toNode, void *archInfo);
+void  graphDelArch(graph G, int fromEdge, int toNode);
 
 
-int graphCountEdges(graph G);
-int * graphGetEdges(graph);
-int * graphGetArchsFromEdge(graph, int Edge); // int a dove arriva
+int graphCountNodes(graph G);
+int * graphGetNodes(graph);
+int * graphGetArchsFromNode(graph, int Edge); // int a dove arriva
 
-int graphCountArchsFromEdge(graph G, int edge);
-int graphCountArchsToEdge(graph G, int edge);
+int graphCountArchsFromNode(graph G, int edge);
+int graphCountArchsToNode(graph G, int edge);
 
-#warning graph free missing
 
 graph graph_selftest1(void);
 

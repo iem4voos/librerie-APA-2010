@@ -150,14 +150,25 @@ coda codaInit(void){
     return c;
 }
 
-void codaFree(coda C){
+void codaFreeWithContent(coda C){
     struct item_s * tmp;
     for (struct item_s * i=C->testa; i!=NULL;   ) {
         free(i->item);
         tmp=i;
         i=i->next;
         free(tmp);
+    } 
+    free(C);
+}
+
+void codaFree(coda C){
+    struct item_s * tmp;
+    for (struct item_s * i=C->testa; i!=NULL;   ) {
+        tmp=i;
+        i=i->next;
+        free(tmp);
     }
+    free(C);
 }
 
 int codaIsEmpty(coda C){
@@ -236,10 +247,13 @@ void * codaGet(coda C){
 
 void * codaSerch(coda C, void * elemento, int (*funcPtCompare)(void *, void *))
 {
-    struct item_s * x;    
-    for (x=C->testa; x!=NULL && funcPtCompare(x->item, elemento) !=0 ; x=x->next) ;
+    struct item_s * x=C->testa;    
+    for (/**/ ; x!=NULL && funcPtCompare(x->item, elemento) !=0 ; x=x->next) ;
     
-    return x;
+    if (x==NULL) {
+        return NULL;
+    }else
+        return x->item;
 }
 
 /*  return NULL se non trova elemento
@@ -256,6 +270,10 @@ void * codaDelByCompare(coda C, void * elemento, int (*funcPtCompare)(void *, vo
     void * the_item_content;
     
     for (x=C->testa; x!=NULL && funcPtCompare(x->item, elemento) !=0 ; x=x->next) ;
+    
+    if (x==NULL) {
+        return NULL;
+    }
     
      puts("coda: rimozione elemento da....");
     
@@ -369,8 +387,9 @@ void coda_selfTest1(void){
     while ((x=coda_NextNum(I))!=CODA_ITERATION_END)
         printf(">%d\n",(int)x);
     
-    float *f, kk=4.0;
-    f=&kk;
+    //float *f, 
+    float kk=4.0;
+   // f=&kk;
     
     codaDelByCompare(C, &kk, compare_float);
     

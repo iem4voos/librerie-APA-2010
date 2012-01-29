@@ -3,7 +3,6 @@
 //  MicLibApa2010
 //
 //  Created by mic on 14/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #ifndef MicLibApa2010_str2int_h
@@ -14,11 +13,14 @@
 typedef struct s2i_s *s2i;
 
 s2i     str2intInit(int size);
+void    str2intFree(s2i );
+
 int     str2int(s2i,char *);
 char *  int2str(s2i, int);
+
 int     str2intLen(s2i);
 void    str2intPrint(s2i );
-void    str2intFree(s2i );
+
 
 
 

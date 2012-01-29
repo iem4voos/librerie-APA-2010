@@ -59,7 +59,7 @@ dfs_result_t dfs(dfs_result_t );
 
 bfs_result_t  bfs_init(graph G){
     struct bfs_resut_s * s;
-    int nEdges=graphCountEdges(G);
+    int nEdges=graphCountNodes(G);
     
     s=malloc(sizeof(struct bfs_resut_s));
     s->graph=G;
@@ -90,7 +90,7 @@ dfs_result_t  dfs_initWithFuncAndPt(graph G, void (*func)(int, void *), void * s
 
 dfs_result_t  dfs_init(graph G){
     struct dfs_resut_s * s;
-    int nEdges=graphCountEdges(G);
+    int nEdges=graphCountNodes(G);
     
     s=malloc(sizeof(struct bfs_resut_s));
     s->graph=G;
@@ -135,10 +135,10 @@ bfs_result_t bfs_from(bfs_result_t handler, int fromEdge){
     while (codaCount(C) != 0) {
         
         x = (int)codaGetNum(C);
-        int arcsFromX=graphCountArchsFromEdge(G, x);
+        int arcsFromX=graphCountArchsFromNode(G, x);
         
         if (arcsFromX > 0) {
-            tmpVet= graphGetArchsFromEdge(G, x);
+            tmpVet= graphGetArchsFromNode(G, x);
         }
         
         for (int i=0; i< arcsFromX ; i++) {
@@ -186,9 +186,9 @@ coda topological_sort(graph G){
 dfs_result_t dfs(dfs_result_t handler){
     
     int * edges;
-    edges= graphGetEdges(handler->graph);
+    edges= graphGetNodes(handler->graph);
     
-    for (int i=0; i< graphCountEdges(handler->graph); i++) {
+    for (int i=0; i< graphCountNodes(handler->graph); i++) {
         if (handler->colors[i]== WHITE) 
             dfs_visit_r(handler, i);
         
@@ -206,9 +206,9 @@ dfs_result_t dfs_visit_r(dfs_result_t H,int fromEdge)
     H->colors[fromEdge]=GRAY;
     H->discover[fromEdge]=++H->time;
     
-    nArcs= graphCountArchsFromEdge(G, fromEdge);
+    nArcs= graphCountArchsFromNode(G, fromEdge);
     //if (nArcs!=0) 
-        arcs = graphGetArchsFromEdge(G, fromEdge);
+        arcs = graphGetArchsFromNode(G, fromEdge);
     
     for (int i=0; i<nArcs; i++) {
         next= arcs[i];

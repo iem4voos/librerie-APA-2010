@@ -3,8 +3,15 @@
 //  MicLibApa2010
 //
 //  Created by mic on 14/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ use a string array to contain strings
+ 
+ initialized with some size, realloc che size if dimension excede array len
+ 
+ use realloc, so if you need to use on small memory system need to change che alloc mode
+ */
+
+
 
 #include "str2int.h"
 #include <stdlib.h>

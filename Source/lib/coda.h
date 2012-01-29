@@ -1,4 +1,4 @@
-//  coda.h   librerie-APA-2010
+//  coda.c  librerie-APA-2010   Created by mic on 08/09/10.
 
 #ifndef coda_h
 #define coda_h
@@ -31,9 +31,12 @@ typedef struct iterator_s * coda_iterator;
 
 coda codaInit(void);
 void codaFree(coda);
+void codaFreeWithContent(coda C);
+
 void codaPush(coda , void * elemento);
 void * codaGet(coda);
 void * codaPop(coda);
+
 void codaPushUnique(coda , void *elem, int (*compare)(void *, void *));
 void * codaSerch       
     (coda C, void * elem, int (*compare)(void *, void *));

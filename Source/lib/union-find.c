@@ -15,7 +15,7 @@
 #define max(a,b) ( (a>b)? a: b )
 
 // local function
-int uf_checkIfSizeFitsAndAdjust(uf_handler_t H, int p, int q);
+static int uf_checkIfSizeFitsAndAdjust(uf_handler_t H, int p, int q);
 
 struct uf_handler_s {
     int *id;
