@@ -207,7 +207,7 @@ void codaPush(coda C, void * elemento){
     C->nElem ++;
 }
 
-void * codaGet(coda c){
+void * codaPop(coda c){
     item *i;
     
     if(c->nElem==0){
@@ -221,7 +221,7 @@ void * codaGet(coda c){
     return i;
 }
 
-void * codaPop(coda C){
+void * codaGet(coda C){
     item *i;
     
     if(C->nElem==0){
@@ -234,12 +234,20 @@ void * codaPop(coda C){
     return i;
 }
 
+void * codaSerch(coda C, void * elemento, int (*funcPtCompare)(void *, void *))
+{
+    struct item_s * x;    
+    for (x=C->testa; x!=NULL && funcPtCompare(x->item, elemento) !=0 ; x=x->next) ;
+    
+    return x;
+}
+
 /*  return NULL se non trova elemento
  *  contronta tutti gli elementi della lista usando la funzione compare
  *
- *   coda C, - coda nella quale controlle e estrae
- *   void * elemento  elemento che viene passato a "compare"
- *  comapre () must return 0 if equal 1 if diversi;
+ *  @param coda C, - coda nella quale controlle e estrae
+ *  @param void * elemento  elemento che viene passato a "compare"
+ *  @èaram comapre () must return 0 if equal 1 if diversi;
  */
 
 void * codaDelByCompare(coda C, void * elemento, int (*funcPtCompare)(void *, void *))

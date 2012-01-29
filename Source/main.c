@@ -31,11 +31,11 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
-    bfs_selftest1();
+    //bfs_selftest1();
     
     //heapSelf();
     //graph_selftest1();
-    //test_coda();
+    test_coda();
     //coda_selfTest1();
     //uf_selftest();
     //assert( macro(char) == sizeof(char) );
@@ -49,14 +49,16 @@ int main(void){
 void  test_coda(void){
 
     coda C;
+    int nums[6]={1,5,33,3,24,2};
+    
     C = codaInitNumeric();
-    for (int i=0; i<5; i++) {
-        codaPushNum(C, i);
+    for (int i=0; i<6; i++) {
+        codaPush(C, &nums[i]);
     }
     
     for (int i=0; !codaIsEmpty(C); i++) {
-        printf("%d", (int)codaGetNum(C) );
-        printf("%d", (int)codaPopNum(C) );
+        //printf("+%d ", *(int*)codaGet(C) );
+       printf("-%d ", *(int*)codaPop(C) );
     }
 }
 
