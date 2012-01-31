@@ -3,8 +3,6 @@
 //  MicLibApa2010
 //
 //  Created by mic on 16/08/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
 
 #include <stdio.h>
 #include <assert.h>

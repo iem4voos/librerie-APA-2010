@@ -33,17 +33,48 @@ struct graph_s {
     int nArchs;
     int maxNodes;
     is_graph_oriented isGraphOriented;
+    int (*compare_arch)(void *, void *);
     //coda C;
 };
 
-//MARK: local functions prototypes
+//MARK: - local functions prototypes
 static int graph_checkSizeOrGrow(graph G, int nodeNum);
-static int arch_compare(void *, void *);
+static int graph_arch_compare_default(void *, void *);
+static int * graphGetArchsFromNodeX(graph , int, from_or_to  );
+static int graphAddArch_X(graph , int, int, void *);
 
 
-//MARK: functions
+//MARK: - Functions
 
-graph graphInit(int maxNodes, is_graph_oriented  isOriented, is_graph_weithed isWeithed){
+archInfo grapgGetArchInfo(graph G, int from, int to){
+    archInfo info=malloc(sizeof(struct archInfo_s));
+    
+    info->fromInfo=G->adj[from]->user_info;
+    info->toInfo=G->adj[to]->user_info;
+}
+
+int graph_arch_compare_default(void *a, void *b){
+    struct arch_s *A, *B;
+    A = (struct arch_s *)a;
+    B= (struct arch_s *)b;
+    
+    if (A->fromNode == B->fromNode && A->toNode == B->toNode) {
+        return 0;
+    }
+    return 1;
+}
+
+void graphSetCompare(graph G, int (*compare)(void *,void *)){
+    if (compare==NULL) {
+        G->compare_arch=graph_arch_compare_default;
+    }
+    
+    G->compare_arch=compare;
+}
+
+//MARK: - Init and Free
+
+graph graphInit(int maxNodes, is_graph_oriented  isOriented){
     graph G;
     G=malloc(sizeof(struct graph_s));
     puts("graph allocated");
@@ -51,6 +82,8 @@ graph graphInit(int maxNodes, is_graph_oriented  isOriented, is_graph_weithed is
     G->nNodes   =G->nArchs=0;
     G->maxNodes =maxNodes;
     G->adj      =calloc(maxNodes, sizeof(struct node_s *));
+    G->compare_arch=graph_arch_compare_default;
+    
     puts("allocated the vector of edges");
     for (int i=0; i<maxNodes; G->adj[i++]=NULL); //initialize adj to null
     puts("edges initialized to null");
@@ -66,6 +99,32 @@ void graphFree(graph G){
     }
     free(G->adj);
 }
+
+int graph_checkSizeOrGrow(graph G, int nodeNum){
+    int newNodeNum;
+    //puts("chaking the size of graph");
+    
+    if (nodeNum < G->maxNodes)
+    {
+        return 1;
+    }
+    
+    newNodeNum= (int)(nodeNum * 1.5);
+    G->adj=realloc(G->adj, sizeof(struct node_s *) *  newNodeNum );
+    if (!G->adj) { 
+        puts("reallocation Failed!! Exit!!");
+        exit(EXIT_FAILURE);
+    }else{ 
+        printf("increased the size (from %d to %d) to fit \
+               new edges\n",G->maxNodes, newNodeNum );
+    }
+    // initalize the new allocated cells
+    for (int i=nodeNum; i< newNodeNum; G->adj[i++]=NULL);  
+    G->maxNodes= newNodeNum;
+    return 0;
+}
+
+//MARK: - Nodes
 
 int graphAddNode(graph G, int nodeNum,    void *nodeInfo){
     struct node_s *Node;
@@ -97,107 +156,6 @@ void  graphDelNode(graph G, int node){
     G->adj[node]=NULL;
 }
 
-int graph_arch_compare(void *a, void *b){
-    struct arch_s *uno, *due;
-    uno = (struct arch_s *)a;
-    due= (struct arch_s *)b;
-    
-    if (uno->fromNode == due->fromNode && uno->toNode == due->toNode) {
-        return 0;
-    }
-    return 1;
-}
-#warning "controllare : la parte non orientata non va!!
-
-void  graphDelArch(graph G, int fromNode, int toNode){
-    //
-    coda arches, delended;
-    struct arch_s arch;
-    
-    arch.fromNode=fromNode;
-    arch.toNode=toNode;
-    
-    
-    arches=G->adj[toNode]->incoming_arcs;
-    codaDelByCompare(arches, &arch, graph_arch_compare);
-    
-    arches=G->adj[fromNode]->outgoing_arcs;
-    delended=codaDelByCompare(arches, &arch, graph_arch_compare);
-    free(delended); // only this must be freed incoming are only pointers
-
-    if (G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
-        
-        int tmp;  // swap origin and destination
-        tmp=toNode; toNode=fromNode; fromNode=tmp;
-        
-        arch.fromNode=fromNode;
-        arch.toNode=toNode;
-        
-        arches=G->adj[toNode]->incoming_arcs;
-        codaDelByCompare(arches, &arch, graph_arch_compare);
-        
-        arches=G->adj[fromNode]->outgoing_arcs;
-        delended=codaDelByCompare(arches, &arch, graph_arch_compare);
-        free(delended); // only this must be freed incoming are only pointers
-        
-    }
-}
-
-int  graphAddArch_X(graph G, int fromNode,   int toNode, void *archInfo){
-    struct arch_s * a;
-    
-    printf("adding arch [%d]->[%d]\n", fromNode, toNode);
-    
-    graph_checkSizeOrGrow(G,fromNode);
-    graph_checkSizeOrGrow(G,toNode);
-    
-    a=malloc(sizeof(struct arch_s));
-    a->fromNode=fromNode;
-    a->toNode=toNode;
-    a->user_info=archInfo;
-    codaPushUnique(G->adj[fromNode]->outgoing_arcs, a, arch_compare);
-    
-    // to edge indicate incoming arch- is only a pounter do not free
-    codaPushUnique(G->adj[toNode]->incoming_arcs, a, arch_compare);
-
-    G->nArchs++;
-    return EXIT_SUCCESS;
-}
-
-int  graphAddArch(graph G, int fromNode,   int toNode, void *archInfo){
-    //struct arch_s * a;
-    
-    
-    if (G->adj[fromNode] == NULL || G->adj[toNode] == NULL) {
-        puts("\nthe node du not exist");
-        return EXIT_FAILURE;
-    }
-    
-    
-    
-    graphAddArch_X(G, fromNode, toNode, archInfo);
-    
-    if ( G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
-       graphAddArch_X(G, toNode, fromNode, archInfo); 
-    }
-    return EXIT_SUCCESS;
-}
-
-int graphCountNodes(graph G){
-    return G->nNodes;
-}
-
-int graphCountArchsFromNode(graph G, int edge){
-    if (G->adj[edge] == NULL) 
-        return 0;
-    
-    return codaCount( G->adj[edge]->outgoing_arcs);   
-}
-
-int graphCountArchsToNode(graph G, int edge){
-    return codaCount( G->adj[edge]->incoming_arcs);
-}
-
 int * graphGetNodes(graph G){
     //struct edge_s * E;
     int *vet;
@@ -214,9 +172,92 @@ int * graphGetNodes(graph G){
     return vet;
 }
 
-#warning pacco ?? se si perche? perche nel caso ce ne sia solo uno da zero e non il num
+//MARK: - Archs
+
+int  graphAddArch(graph G, int fromNode,   int toNode, void *archInfo){
+    
+    if (G->adj[fromNode] == NULL || G->adj[toNode] == NULL) {
+        printf("\nthe node %d or %d do not exist",fromNode, toNode);
+        return EXIT_FAILURE;
+    }
+    
+    graphAddArch_X(G, fromNode, toNode, archInfo);
+    
+    if ( G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
+        graphAddArch_X(G, toNode, fromNode, archInfo); 
+    }
+    return EXIT_SUCCESS;
+}
+
+//#warning graph_arch_compare
+int  graphAddArch_X(graph G, int fromNode,   int toNode, void *archInfo){
+    struct arch_s * a;
+    
+    printf("adding arch [%d]->[%d]\n", fromNode, toNode);
+    
+    graph_checkSizeOrGrow(G,fromNode);
+    graph_checkSizeOrGrow(G,toNode);
+    
+    a=malloc(sizeof(struct arch_s));
+    a->fromNode=fromNode;
+    a->toNode=toNode;
+    a->user_info=archInfo;
+    codaPushUnique(G->adj[fromNode]->outgoing_arcs, a, G->compare_arch);
+    
+    // to edge indicate incoming arch- is only a pounter do not free
+    codaPushUnique(G->adj[toNode]->incoming_arcs, a, G->compare_arch);
+    
+    G->nArchs++;
+    return EXIT_SUCCESS;
+}
+
+
+//#warning graph_arch_compare
+void  graphDelArch(graph G, int fromNode, int toNode){
+    //
+    coda arches, delended;
+    struct arch_s arch;
+    
+    arch.fromNode=fromNode;
+    arch.toNode=toNode;
+    
+    
+    arches=G->adj[toNode]->incoming_arcs;
+    codaDelByCompare(arches, &arch, G->compare_arch);
+    
+    arches=G->adj[fromNode]->outgoing_arcs;
+    delended=codaDelByCompare(arches, &arch, G->compare_arch);
+    free(delended); // only this must be freed incoming are only pointers
+
+    if (G->isGraphOriented == GRAPH_IS_NOT_ORIENTED) {
+        
+        int tmp;  // swap origin and destination
+        tmp=toNode; toNode=fromNode; fromNode=tmp;
+        
+        arch.fromNode=fromNode;
+        arch.toNode=toNode;
+        
+        arches=G->adj[toNode]->incoming_arcs;
+        codaDelByCompare(arches, &arch, G->compare_arch);
+        
+        arches=G->adj[fromNode]->outgoing_arcs;
+        delended=codaDelByCompare(arches, &arch, G->compare_arch);
+        free(delended); // only this must be freed incoming are only pointers
+        
+    }
+}
+
+//MARK: get archs
+
 // return NULL in case of Empty
-int * graphGetArchsFromNode(graph G, int Node)
+int * graphGetArchsToNode(graph G, int node){
+    return graphGetArchsFromNodeX(G, node, TO );
+}
+int * graphGetArchsFromNode(graph G, int Node){
+    return graphGetArchsFromNodeX(G, Node, FROM );
+}
+
+int * graphGetArchsFromNodeX(graph G, int Node, from_or_to isFrom )
 {
     coda C;
     coda_iterator I;
@@ -226,67 +267,46 @@ int * graphGetArchsFromNode(graph G, int Node)
     // aggiunto secodo criterio - testare
     if (G->maxNodes < Node || G->adj[Node] == NULL) {
         puts("errore interno graphGetArchsFromNode");
-        
         printf("Node: %d , G->nNodes= %d", Node, G->nNodes);
-        
         return NULL;
     }
     
-    C=G->adj[Node]->outgoing_arcs;
+    if (isFrom== FROM)
+        C=G->adj[Node]->outgoing_arcs;
+    else
+        C=G->adj[Node]->incoming_arcs;
+    
     num_archi=codaCount(C);
     
-    if (num_archi==0) {
-        return NULL;
-    }
-        
-    vett=calloc(num_archi, sizeof(int));
-    //printf("\n graphGetArchsFromEdge:  allocato vettore %d elem", codaCount(C));
+    if (num_archi==0) {return NULL;}
     
     I= codaIteratorInit(C, NULL, FORWARD_ITERATION);
+    vett=calloc(num_archi, sizeof(int));
     
     for (int i=0; (arc=coda_Next(I)); i++)
         vett[i]=arc->toNode;
-
+    
     codaIteratorFree(I);
     return vett;
 }
 
-int arch_compare(void * a, void * b){
-    
-    struct arch_s *A, *B;
-    A=(struct arch_s *) a;
-    B=(struct arch_s *) b;
-    
-    if (A->fromNode == B->fromNode && A->toNode == B->toNode) {
-        return 0;
-    }
-    
-    return 1;
+
+
+//MARK: - Count
+
+int graphCountNodes(graph G){
+    return G->nNodes;
 }
 
-int graph_checkSizeOrGrow(graph G, int nodeNum){
-    int newNodeNum;
-    //puts("chaking the size of graph");
+int graphCountArchsFromNode(graph G, int edge){
+    if (G->adj[edge] == NULL) 
+        return 0;
     
-    if (nodeNum < G->maxNodes)
-    {
-        //puts("size is ok");
-        return 1;
-    }
-    
-    newNodeNum= (int)(nodeNum * 1.5);
-    G->adj=realloc(G->adj, sizeof(struct node_s *) *  newNodeNum );
-    if (!G->adj) { 
-        puts("reallocation Failed!! Exit!!");
-        exit(EXIT_FAILURE);
-    }else{ 
-        printf("increased the size (from %d to %d) to fit \
-               new edges\n",G->maxNodes, newNodeNum );
-    }
-    // initalize the new allocated cells
-    for (int i=nodeNum; i< newNodeNum; G->adj[i++]=NULL);  
-    G->maxNodes= newNodeNum;
-    return 0;
+    return codaCount( G->adj[edge]->outgoing_arcs);   
+}
+
+int graphCountArchsToNode(graph G, int edge){
+    return codaCount( G->adj[edge]->incoming_arcs);
 }
 
 graph graph_selftest1(void){
@@ -294,7 +314,7 @@ graph graph_selftest1(void){
     
     puts("graph selftest");
     
-    G=graphInit(10, GRAPH_IS_ORIENTED, GRAPH_IS_WEIGHTD);
+    G=graphInit(10, GRAPH_IS_NOT_ORIENTED);
     
     for (int i=1; i<6; i++) {
         graphAddNode(G, i, NULL);
@@ -307,7 +327,11 @@ graph graph_selftest1(void){
         graphAddArch(G, 1, i, NULL);
     }
     
+    
+    graphAddArch(G, 2, 1, NULL);
     graphAddArch(G, 10, 3, NULL);
+    
+    graphDelArch(G, 1, 2);
     
     puts("\nrimuovo arco 1 5");
     graphDelArch(G, 1, 5);

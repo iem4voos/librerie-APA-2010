@@ -15,7 +15,6 @@ typedef struct dfs_resut_s  * dfs_result;
 
 bfs_result  bfs_init(graph G);
 void        bfsFreeResult(bfs_result R);
-
 bfs_result  bfs_from(bfs_result handler, int fromEdge);
 void        print_bfs_res(bfs_result R);
 

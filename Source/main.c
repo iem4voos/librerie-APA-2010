@@ -28,6 +28,8 @@ void zz(int v[4],int c){
     }
 }
 
+
+
 int main(void){
     printf("...\n");
     
