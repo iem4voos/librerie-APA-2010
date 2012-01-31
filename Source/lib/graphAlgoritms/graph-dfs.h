@@ -9,14 +9,15 @@
 #ifndef MicLibApa2010_dfs_h
 #define MicLibApa2010_dfs_h
 
+#include "graph.h"
 
 typedef struct dfs_resut_s  * dfs_result;
 
 dfs_result  dfs_init(graph G);
 
 dfs_result dfs_visit_r(dfs_result handler,int fromEdge);
-dfs_result_t  dfs_initWithFuncAndPt(graph G, void (*func)(int, void *), void * somePtr);
+dfs_result  dfs_initWithFuncAndPt(graph G, void (*func)(int, void *), void * somePtr);
 
-dfs_result_t dfs(dfs_result_t handler);
+dfs_result dfs(dfs_result handler);
 
 #endif

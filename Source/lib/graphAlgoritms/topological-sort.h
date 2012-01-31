@@ -10,7 +10,8 @@
 
 #include "graph.h"
 #include "coda.h"
-
+// REQUIRE #include "graph-dfs.h"
 coda topological_sort(graph G);
 
+coda topological_sort_SelfTest(graph G);
 #endif

@@ -5,6 +5,8 @@
 //  Created by mic on 24/08/11.
 //
 
+#if 0
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "coda.h"
@@ -300,7 +302,7 @@ void bfs_selftest1(void){
     printf("coda topologica di N: %d %f\n", codaCount(C), CODA_ITERATION_END);
     
     
-#if 0
+
     coda_iterator I;
     I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
     int x;
@@ -309,7 +311,7 @@ void bfs_selftest1(void){
     
     codaIteratorFree(I);
     
-#endif
+
     
     puts("\n ---------\n");
     
@@ -318,3 +320,4 @@ void bfs_selftest1(void){
 
 #pragma mark - alg
 
+#endif

@@ -3,13 +3,14 @@
 #ifndef coda_h
 #define coda_h
 
-#include <float.h>  // tu use constant FLT_MIN
+//#include <float.h>  // tu use constant FLT_MIN
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #define DEBUG 1
-#define CODA_ITERATION_END FLT_MIN
-#define CODA_FLOAT_ERROR FLT_MIN
+#define CODA_ITERATION_END INT_MIN
+#define CODA_FLOAT_ERROR INT_MIN
 
 enum iteration_direction {
     FORWARD_ITERATION = 1,

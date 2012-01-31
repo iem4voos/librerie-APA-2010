@@ -5,15 +5,14 @@
 //  Created by mic on 31/01/12.
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
-
-#include <stdio.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "coda.h"
 #include "graph.h"
 
-#define NAN -2147483648
-#define MAX_INT 2147483647
+#define NAN INT_MIN
+#define MAX_INT INT_MAX
 
 typedef enum color_e  {
     WHITE,

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "topological-sort.h"
 #include "graph-dfs.h"
+#include "coda.h"
 
 #pragma mark - ALGORITMS
 #pragma mark - Topological sort (dfs)
@@ -28,4 +29,33 @@ coda topological_sort(graph G){
     dfs(H);
     
     return C;
+}
+
+//MARK: selftest
+
+coda topological_sort_SelfTest(graph Gin){
+    graph G=graphInit(9, GRAPH_IS_ORIENTED);
+    
+    for (int i=0; i<9; graphAddNode(G, i, NULL), i++);
+    
+    graphAddArch(G, 0, 1, NULL);
+    graphAddArch(G, 1, 2, NULL);
+    graphAddArch(G, 2, 8, NULL);
+    graphAddArch(G, 3, 2, NULL);
+    graphAddArch(G, 3, 7, NULL);
+    graphAddArch(G, 7, 8, NULL);
+    
+    graphAddArch(G, 4, 5, NULL);
+
+    coda C=topological_sort(G);
+    coda_iterator I=codaIteratorInit(C, NULL, FORWARD_ITERATION);
+    int x;
+    while ((x=coda_NextNum(I))!=CODA_ITERATION_END) 
+        printf(">%d\n",(int)x);
+    
+    codaIteratorFree(I);
+    
+    puts("\n ---------\n");
+    
+    
 }

@@ -6,13 +6,14 @@
 //  Copyright 2012 __MyCompanyName__. All rights reserved.
 //
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "coda.h"
-#include "graph.h"
+#include "graph-dfs.h"
 
-#define NAN -2147483648
-#define MAX_INT 2147483647
+#define NAN INT_MIN
+#define MAX_INT INT_MAX
 
 typedef enum color_e  {
     WHITE,
@@ -110,7 +111,7 @@ dfs_result_t dfs_visit_r(dfs_result_t H,int fromEdge)
     }
     
     if (H->funcPtr!=NULL) {
-        puts(".. ptr not null");
+        //puts(".. ptr not null");
         H->funcPtr(fromEdge, H->somePtToFunc);
     }
     

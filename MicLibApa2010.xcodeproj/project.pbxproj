@@ -37,7 +37,7 @@
 		050E06EF127611DF00350C49 /* matrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrice.h; sourceTree = "<group>"; };
 		0517F24E1275D9C000FE4281 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0517F2511275E00D00FE4281 /* fast_git_tutorial.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fast_git_tutorial.html; sourceTree = "<group>"; };
-		052ED3DD14D8784B00DA2578 /* graph-dfs.h */ = {isa = PBXFileReference; fileEncoding = 4; path = "graph-dfs.h"; sourceTree = "<group>"; };
+		052ED3DD14D8784B00DA2578 /* graph-dfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "graph-dfs.h"; sourceTree = "<group>"; };
 		052ED3DE14D8785C00DA2578 /* graph-dfs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "graph-dfs.c"; sourceTree = "<group>"; };
 		052ED3E014D8789900DA2578 /* graph-Bfs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "graph-Bfs.c"; sourceTree = "<group>"; };
 		052ED3E214D878AB00DA2578 /* graph-Bfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "graph-Bfs.h"; sourceTree = "<group>"; };

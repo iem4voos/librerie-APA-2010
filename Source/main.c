@@ -13,6 +13,8 @@
 #include "lib/heap.h"
 #include "lib/graph-algoritm-test.h"
 
+#include "topological-sort.h"
+
 #define macro(stringa) sizeof(#stringa)
  
 #define fDBG(a) printf(#a "\n%f",a) 
@@ -36,8 +38,11 @@ int main(void){
     //bfs_selftest1();
     
     //heapSelf();
-    graph G= graph_selftest1();
-    graphFree(G);
+    //graph G= graph_selftest1();
+    //graphFree(G);
+    
+    topological_sort_SelfTest(NULL);
+    
     //test_coda();
     //coda_selfTest1();
     //uf_selftest();
