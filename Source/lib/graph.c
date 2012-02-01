@@ -29,29 +29,25 @@ struct arch_s {
 
 struct graph_s {
     struct node_s **adj;
-    int nNodes;
-    int nArchs;
-    int maxNodes;
+    int nNodes;  // effectiv number of nodes
+    int nArchs;  
+    int maxNodes; // number if adj cells - size of the structure
     is_graph_oriented isGraphOriented;
     int (*compare_arch)(void *, void *);
     //coda C;
 };
 
+typedef enum{FROM,TO} from_or_to;
+typedef enum{TRANSPOSE,COPY} transope_or_copy;
+
 //MARK: - local functions prototypes
+static graph graphCopyOrTranspose(graph ,transope_or_copy);
 static int graph_checkSizeOrGrow(graph G, int nodeNum);
 static int graph_arch_compare_default(void *, void *);
 static int * graphGetArchsFromNodeX(graph , int, from_or_to  );
 static int graphAddArch_X(graph , int, int, void *);
 
-
 //MARK: - Functions
-
-archInfo grapgGetArchInfo(graph G, int from, int to){
-    archInfo info=malloc(sizeof(struct archInfo_s));
-    
-    info->fromInfo=G->adj[from]->user_info;
-    info->toInfo=G->adj[to]->user_info;
-}
 
 int graph_arch_compare_default(void *a, void *b){
     struct arch_s *A, *B;
@@ -68,13 +64,19 @@ void graphSetCompare(graph G, int (*compare)(void *,void *)){
     if (compare==NULL) {
         G->compare_arch=graph_arch_compare_default;
     }
-    
     G->compare_arch=compare;
 }
 
 //MARK: - Init and Free
 
 graph graphInit(int maxNodes, is_graph_oriented  isOriented){
+    
+    /*
+    if (maxNodes==0) {
+        maxNodes=GRAPH_DEFAULT_SIZE;
+    }
+     */
+    
     graph G;
     G=malloc(sizeof(struct graph_s));
     puts("graph allocated");
@@ -104,10 +106,7 @@ int graph_checkSizeOrGrow(graph G, int nodeNum){
     int newNodeNum;
     //puts("chaking the size of graph");
     
-    if (nodeNum < G->maxNodes)
-    {
-        return 1;
-    }
+    if (nodeNum < G->maxNodes) {return 1;}
     
     newNodeNum= (int)(nodeNum * 1.5);
     G->adj=realloc(G->adj, sizeof(struct node_s *) *  newNodeNum );
@@ -119,9 +118,49 @@ int graph_checkSizeOrGrow(graph G, int nodeNum){
                new edges\n",G->maxNodes, newNodeNum );
     }
     // initalize the new allocated cells
-    for (int i=nodeNum; i< newNodeNum; G->adj[i++]=NULL);  
+    for (int i=G->maxNodes; i< newNodeNum; G->adj[i++]=NULL);  
     G->maxNodes= newNodeNum;
     return 0;
+}
+
+//MARK: - Copy and Transpose
+
+graph graphCopy(graph G){
+    return graphCopyOrTranspose( G,COPY);
+}
+graph graphTranspose(graph G){
+    return graphCopyOrTranspose( G,TRANSPOSE);
+}
+
+static graph graphCopyOrTranspose(graph G,transope_or_copy isToCopy){
+    
+    coda C;
+    graph G2=graphInit(G->nNodes, G->isGraphOriented);
+    struct arch_s * arc;
+    
+    // copy all nodes
+    for (int i=0; i<G->maxNodes; i++) {
+        if (G->adj[i]==NULL)continue;
+        graphAddNode(G2, i, G->adj[i]->user_info);
+    }
+    
+    //copy all arcs
+    for (int i=0; i<G->maxNodes; i++) {
+        if (G->adj[i]==NULL)continue;
+        
+        C=G->adj[i]->outgoing_arcs;
+        coda_iterator I= codaIteratorInit(C, NULL, FORWARD_ITERATION);
+        
+        for (int i=0; (arc=coda_Next(I)); i++){
+            if (isToCopy==COPY) {
+                graphAddArch(G2, arc->fromNode, arc->toNode, arc->user_info);
+            }else{ // from and to are swapped
+                graphAddArch(G2, arc->toNode, arc->fromNode, arc->user_info);
+            }
+        }
+        codaIteratorFree(I);
+    }
+    return G2;
 }
 
 //MARK: - Nodes
@@ -130,7 +169,7 @@ int graphAddNode(graph G, int nodeNum,    void *nodeInfo){
     struct node_s *Node;
     graph_checkSizeOrGrow(G,nodeNum);
     
-    printf("\nadding che edge num %d", nodeNum);
+    printf("adding che node num %d\n", nodeNum);
     if (G->adj[nodeNum]!=NULL)
     {
         puts("node already exists");
@@ -156,6 +195,10 @@ void  graphDelNode(graph G, int node){
     G->adj[node]=NULL;
 }
 
+void * graphGetNodeData(graph G, int nodeNum){
+    return G->adj[nodeNum]->user_info;
+}
+
 int * graphGetNodes(graph G){
     //struct edge_s * E;
     int *vet;
@@ -177,7 +220,15 @@ int * graphGetNodes(graph G){
 int  graphAddArch(graph G, int fromNode,   int toNode, void *archInfo){
     
     if (G->adj[fromNode] == NULL || G->adj[toNode] == NULL) {
-        printf("\nthe node %d or %d do not exist",fromNode, toNode);
+        
+        
+        if (G->adj[fromNode] == NULL) {
+            printf("\n the node %d dont exist\n", fromNode);
+        }
+        if(G->adj[toNode] == NULL){
+            printf("\n the node %d dont exist\n", toNode);
+        }
+        
         return EXIT_FAILURE;
     }
     
@@ -215,8 +266,8 @@ int  graphAddArch_X(graph G, int fromNode,   int toNode, void *archInfo){
 //#warning graph_arch_compare
 void  graphDelArch(graph G, int fromNode, int toNode){
     //
-    coda arches, delended;
-    struct arch_s arch;
+    coda arches;//, delended;
+    struct arch_s arch, *delended;;
     
     arch.fromNode=fromNode;
     arch.toNode=toNode;
@@ -247,6 +298,16 @@ void  graphDelArch(graph G, int fromNode, int toNode){
     }
 }
 
+
+
+void * graphGetArchData(graph G, int from, int to){
+    struct arch_s arch, *serchedArch;
+    arch.fromNode = from;
+    arch.toNode   = to;
+    serchedArch = codaSerch( G->adj[from]->outgoing_arcs , &arch, G->compare_arch);
+    return serchedArch->user_info;
+}
+
 //MARK: get archs
 
 // return NULL in case of Empty
@@ -267,7 +328,7 @@ int * graphGetArchsFromNodeX(graph G, int Node, from_or_to isFrom )
     // aggiunto secodo criterio - testare
     if (G->maxNodes < Node || G->adj[Node] == NULL) {
         puts("errore interno graphGetArchsFromNode");
-        printf("Node: %d , G->nNodes= %d", Node, G->nNodes);
+        printf("Node: %d , G->nNodes= %d\n", Node, G->nNodes);
         return NULL;
     }
     
@@ -293,6 +354,10 @@ int * graphGetArchsFromNodeX(graph G, int Node, from_or_to isFrom )
 
 
 //MARK: - Count
+
+int graphGetMaxNodes(graph G){
+    return G->maxNodes;
+}
 
 int graphCountNodes(graph G){
     return G->nNodes;
@@ -351,7 +416,6 @@ graph graph_selftest1(void){
             }
         }
     }
-    
     
     puts("\ngraph selftest END");
     return G;

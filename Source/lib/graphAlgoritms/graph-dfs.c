@@ -77,9 +77,6 @@ dfs_result_t  dfs_initWithFuncAndPt(graph G, void (*func)(int, void *), void * s
 
 dfs_result_t dfs(dfs_result_t handler){
     
-    int * edges;
-    edges= graphGetNodes(handler->graph);
-    
     for (int i=0; i< graphCountNodes(handler->graph); i++) {
         if (handler->colors[i]== WHITE) 
             dfs_visit_r(handler, i);

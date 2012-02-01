@@ -13,10 +13,7 @@
 #pragma mark - Topological sort (dfs)
 
 void tsLc(int edgeNUm, void *b){
-    coda C;
-    C=(coda)b;
     codaPushNum((coda)b, edgeNUm);
-    
     printf("\ninserisco nella coda  %d\n", edgeNUm);
 }
 
@@ -57,5 +54,6 @@ coda topological_sort_SelfTest(graph Gin){
     
     puts("\n ---------\n");
     
+    return NULL;
     
 }

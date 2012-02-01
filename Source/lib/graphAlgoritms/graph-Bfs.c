@@ -9,31 +9,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "coda.h"
-#include "graph.h"
+
+#include "graph-Bfs.h"
+
 
 #define NAN INT_MIN
 #define MAX_INT INT_MAX
 
-typedef enum color_e  {
-    WHITE,
-    GRAY,
-    BLACK
-} color_t;
 
-typedef struct bfs_resut_s {
-    graph graph;
-    int startEdge;
-    int nEdges;
-    int *distance;
-    int *father;
-    int *colors;
-} * bfs_result_t;
 
 #pragma mark - BFS
 
-bfs_result_t  bfs_init(graph G){
+bfs_result  bfs_init(graph G){
     struct bfs_resut_s * s;
-    int nEdges=graphCountNodes(G);
+    int nEdges=graphGetMaxNodes(G);
     
     s=malloc(sizeof(struct bfs_resut_s));
     s->graph=G;
@@ -45,110 +34,95 @@ bfs_result_t  bfs_init(graph G){
     
     for (int i=0; i < nEdges; i++) {
         s->colors[i]=WHITE;
-        s->father[i]=NAN;
-        s->distance[i]=MAX_INT;
+        s->father[i]=NOT_A_NODE;
+        s->distance[i]=INFINITE_DISTANCE;
     }
-    
     return s;
 }
 
-//dfs_setWeight(dfs_result_t *, );
-
-
-
-
-void bfsFreeResult(bfs_result_t R){
+void bfsFreeResult(bfs_result R){
     free(R->colors);
     free(R->father);
     free(R->distance);
 }
 
-bfs_result_t bfs_from(bfs_result_t handler, int fromEdge){
-    int *d=handler->distance;
-    int *p=handler->father;
-    int *colors=handler->colors;
-    int x, *tmpVet;
+bfs_result bfs_from(bfs_result handler, int fromEdge){
+    
     coda C;
     graph G=handler->graph;
+    int *distance=handler->distance, *father=handler->father, *colors=handler->colors;
+    int thisNode, *sons, nArcs, nextNode;
     
-    colors[fromEdge]=GRAY;
-    d[fromEdge]=0;
+    colors  [fromEdge] = GRAY;
+    distance[fromEdge] = 0;
     
     C=codaInitNumeric();
-    codaPushNum(C, (int)fromEdge);
+    codaPushNum(C, fromEdge);
     
     while (codaCount(C) != 0) {
+        thisNode = codaGetNum(C);
         
-        x = (int)codaGetNum(C);
-        int arcsFromX=graphCountArchsFromNode(G, x);
+        nArcs = graphCountArchsFromNode(G, thisNode);
+        sons  = graphGetArchsFromNode(G, thisNode);  // if sons is null then the for will not run
         
-        if (arcsFromX > 0) {
-            tmpVet= graphGetArchsFromNode(G, x);
-        }
-        
-        for (int i=0; i< arcsFromX ; i++) {
-            if (colors[i]==WHITE) {
-                colors[i]=GRAY;
-#warning distance??                
-                d[i]=d[i]+ 1;     // might be th distance x,i ??
-                p[i]=x;
-                codaPushNum(C, i);
+        for (int i=0; i< nArcs ; i++) {
+            nextNode=sons[i];
+            if (colors[nextNode]==WHITE) {
+                colors[nextNode]=GRAY;               
+                distance[nextNode] = distance[thisNode]+1; 
+                father[nextNode] = thisNode;
+                codaPushNum(C, nextNode);
             }
         }
-        colors[x]=BLACK;
+        colors[thisNode]=BLACK;
     }
     return handler;
 }
 
-void print_bfs_res(bfs_result_t R){
+void print_bfs_res(bfs_result R){
     
     puts("\n/*---- Start Print BFS RESULT-----*/");
     puts("Colors:");
     for (int i=0; i< R->nEdges; i++) {
-        printf("|%2d", R->colors[i]);
+        printf("|%5d", R->colors[i]);
     }
     puts("\nDistances:");
     for (int i=0; i< R->nEdges; i++) {
-        printf("|%2d", R->distance[i]);
+        printf("|%5d", (R->distance[i]==INFINITE_DISTANCE)? -1 : R->distance[i] );
+        //printf("|%5d", R->distance[i] );
     }
     puts("\nFathers:");
     for (int i=0; i< R->nEdges; i++) {
-        printf("|%2d", R->father[i]);
+        printf("|%5d", R->father[i]);
     }
     puts("\n/*---- END Print BFS RESULT-----*/");
 }
 
-//MARK: - SELFTEST
+//MARK: - SELFTEST -
 
 void bfs_selftest1(void){
     graph G;
-    bfs_result_t  R;
-   // dfs_result_t D;
+    bfs_result  R;
     
-    G=graph_selftest1();
+    //G=graph_selftest1();
+    
+    G=graphInit(1, GRAPH_IS_ORIENTED);
+    for (int i=0; i< 5; i++) { graphAddNode(G, i*2, NULL);}
+    graphAddArch(G, 0  , 1*2  , NULL);
+    graphAddArch(G, 0  , 2*2, NULL);
+    graphAddArch(G, 1*2  , 3*2, NULL);
+    graphAddArch(G, 3*2, 4*2, NULL);
+    
     
     //bfs test
-    /*
      R=bfs_init(G);
+    
      print_bfs_res(R);
-     
-     R=bfs_from(R, 1);
+     R=bfs_from(R, 0);
      print_bfs_res(R);
-     */
     
-    // dfs test
-    /*
-     D=dfs_init(G);
-     //print_Dfs_res(D);
-     D=dfs(D, NULL);
-     print_Dfs_res(D);
-     */
-    //++ topological sort test ++
-    
-    coda C;
-    C= topological_sort(G);
-    printf("coda topologica di N: %d %f\n", codaCount(C), CODA_ITERATION_END);
-    
+    bfsFreeResult(R);
+
     
 #if 0
     coda_iterator I;

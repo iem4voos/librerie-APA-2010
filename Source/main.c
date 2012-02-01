@@ -11,9 +11,9 @@
 #include "lib/union-find.h"
 #include "lib/graph.h"
 #include "lib/heap.h"
-#include "lib/graph-algoritm-test.h"
 
 #include "topological-sort.h"
+#include "graph-Bfs.h"
 
 #define macro(stringa) sizeof(#stringa)
  
@@ -35,13 +35,13 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
-    //bfs_selftest1();
+    bfs_selftest1();
     
     //heapSelf();
     //graph G= graph_selftest1();
     //graphFree(G);
     
-    topological_sort_SelfTest(NULL);
+    //topological_sort_SelfTest(NULL);
     
     //test_coda();
     //coda_selfTest1();

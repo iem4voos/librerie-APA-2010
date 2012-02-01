@@ -323,6 +323,10 @@ void codaPushNum(coda C, float num){
 float codaGetNum(coda c){
     float * f, num;
     f= codaGet(c);
+    
+    if (f==NULL) {
+        return CODA_ITERATION_END;
+    }
     num=*f;
     free(f);
     return num;
@@ -332,7 +336,7 @@ float codaPopNum(coda C){
     float * f, num;
     f= codaPop(C);
     if (f==NULL) {
-        return -1;
+        return CODA_ITERATION_END;
     }
     num=*f;
     free(f);
