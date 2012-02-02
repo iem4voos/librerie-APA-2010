@@ -43,11 +43,20 @@ dijkstra_t dijkstraRun(dijkstra_t d, int source);
 coda  dijkstraGetPathTo(dijkstra_t d,int node);
 float dijkstraGetDistanceTo(dijkstra_t d,int dest);
 
-
-
-
 void dijkstraSelfTest(void);
 
 // float (*peso)(void *); must be an arch handler
 
 #endif
+
+/* exaple of peso
+ 
+ float peso(void * pt){
+    arch_handler a = pt; //cast to arch_handler 
+    void  * archInfo = a->archInfo;   //get the inserted info
+ 
+    float peso= *((float *)archInfo); //use the info
+    return peso;
+ };
+ 
+ */
