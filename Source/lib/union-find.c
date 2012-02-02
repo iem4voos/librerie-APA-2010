@@ -13,7 +13,9 @@
 #define max(a,b) ( (a>b)? a: b )
 
 // local function
-static int uf_checkIfSizeFitsAndAdjust(uf_handler_t H, int p, int q);
+typedef  uf_handler uf_handler_t;
+
+static int uf_checkIfSizeFitsAndAdjust(uf_handler H, int p, int q);
 
 struct uf_handler_s {
     int *id;
@@ -23,6 +25,10 @@ struct uf_handler_s {
 };
 
 #define UF_DEFAULT_LEN 1000
+
+int uf_size(uf_handler H){
+    return H->len;
+}
 
 uf_handler_t uf_init(int max_len){
     if (max_len<2) {

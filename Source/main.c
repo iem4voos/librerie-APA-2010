@@ -14,6 +14,7 @@
 
 #include "topological-sort.h"
 #include "graph-Bfs.h"
+#include "dijkstra.h"
 
 #define macro(stringa) sizeof(#stringa)
  
@@ -35,9 +36,11 @@ void zz(int v[4],int c){
 int main(void){
     printf("...\n");
     
-    bfs_selftest1();
+    //bfs_selftest1();
     
-    //heapSelf();
+    dijkstraSelfTest();
+    
+    //heapSelfTest();
     //graph G= graph_selftest1();
     //graphFree(G);
     

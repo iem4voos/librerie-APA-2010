@@ -16,11 +16,13 @@ typedef enum heap_get_what_e{
     HEAP_GET_MIN
 } heap_get_what;
 
-heap heapInit(int size,int (*keyOfElement )(void *),heap_get_what);
+heap heapInit(int size,float (*keyOfElement )(void *),heap_get_what);
 void heapInsert(heap H, void * element);
 void * heapExtract(heap H);
 
-void heapSelf(void);
+void heapRebuild(heap H);  //if content of ponters changhe update the heap
+
+void heapSelfTest(void);
 
 /* missing: 
  change proority

@@ -15,36 +15,27 @@
 #define NAN INT_MIN
 #define MAX_INT INT_MAX
 
-typedef enum color_e  {
-    WHITE,
-    GRAY,
-    BLACK
-} color_t;
 
-typedef struct dfs_resut_s {
-    graph graph;
-    int startEdge;
-    int nEdges;
-    int *father;    // Pi
-    int *discover;     //d
-    int *fine;          //f
-    int *colors;
-    int time;  // local global time counter
-    //----
-    
-    void (*funcPtr)(int, void *);
-    void * somePtToFunc;
-    
-} * dfs_result_t;
 
 
 dfs_result_t dfs_visit_r(dfs_result_t H,int fromEdge);
 
 #pragma mark - DFS
 
+void dfsResetColorFatherTime(dfs_result H, color_t color ){
+    
+    int nEdges=graphCountNodes(H->graph);
+    
+    for (int i=0; i < nEdges; i++) {
+        H->colors  [i] = color;
+        H->father  [i] = NAN;
+    }
+    H->time=0;
+}
+
 dfs_result_t  dfs_init(graph G){
     struct dfs_resut_s * s;
-    int nEdges=graphCountNodes(G);
+    int nEdges=graphGetMaxNodes(G);
     
     s=malloc(sizeof(struct dfs_resut_s));
     s->graph=G;
@@ -58,8 +49,8 @@ dfs_result_t  dfs_init(graph G){
     
     for (int i=0; i < nEdges; i++) {
         s->colors  [i] = WHITE;
-        s->discover[i] = NAN;       // nu
-        s->fine    [i] = MAX_INT;   //nu (vengono scritti dopo)
+        //s->discover[i] = NAN;       // nu
+        //s->fine    [i] = MAX_INT;   //nu (vengono scritti dopo)
         s->father  [i] = NAN;
     }
     
@@ -77,7 +68,14 @@ dfs_result_t  dfs_initWithFuncAndPt(graph G, void (*func)(int, void *), void * s
 
 dfs_result_t dfs(dfs_result_t handler){
     
-    for (int i=0; i< graphCountNodes(handler->graph); i++) {
+    int nNodes=graphGetMaxNodes(handler->graph);
+    
+    for (int i=0; i< nNodes ; i++) {
+        
+        if (0==graphNodeExist(handler->graph, i)) {
+            continue;
+        }
+        
         if (handler->colors[i]== WHITE) 
             dfs_visit_r(handler, i);
         

@@ -24,7 +24,7 @@ typedef struct heap_bin_s {
     int heapSize;
     int maxSize;
     void **array;
-    int (*keyOf)(void *);
+    float (*keyOf)(void *);
     heap_get_what maxOrMin;
 } * heap_bin_t;
 
@@ -40,7 +40,7 @@ int heap_checkSizeOrGrow(heap H);
 
 #pragma mark - Functions
 
-heap_bin_t heapInit(int size,int (*keyOfElement )(void *), heap_get_what maxOrMin){
+heap_bin_t heapInit(int size,float (*keyOfElement )(void *), heap_get_what maxOrMin){
     
     heap_bin_t H;
     
@@ -108,7 +108,7 @@ int heap_checkSizeOrGrow(heap H){
 void heapInsert(heap_bin_t H, void * element)
 {
 	int i;
-    int (*key)(void *)=H->keyOf;
+    float (*key)(void *)=H->keyOf;
     void **A;
     
     heap_checkSizeOrGrow(H);
@@ -129,11 +129,10 @@ void heapInsert(heap_bin_t H, void * element)
             i=PARENT(i);
         }
     
-
     
     
 	A[i] = element;
-
+    
     heapBuild(H);
 	return;
 }
@@ -144,7 +143,7 @@ void heapHeapify(heap_bin_t H, int i)
     int l, r, largestOrSmalest;
     int heapsize=H->heapSize;
     void **A=H->array;
-    int (*key)(void *)=H->keyOf;
+    float (*key)(void *)=H->keyOf;
     
     l = LEFT(i);
     r = RIGHT(i); 
@@ -185,6 +184,10 @@ void heapBuild (heap_bin_t H)
 }
 
 void * heapExtract(heap_bin_t H){
+    if (H->heapSize <=0) {
+        return NULL;
+    }
+    
     void * x;
     void **A=H->array;
     
@@ -197,7 +200,13 @@ void * heapExtract(heap_bin_t H){
     return x;
 };
 
-#pragma mark - TEST
+void heapRebuild(heap_bin_t H){
+    heapBuild(H);
+}
+
+//------------------------------------------------------
+
+#pragma mark - TEST -
 
 void test_print_item(void * x){
     int *pt,num=99;
@@ -214,7 +223,7 @@ void test_print_array_int(heap_bin_t H){
     puts("\n");
 }
 
-int testKeyOf(void *elem){
+float testKeyOf(void *elem){
     int *x,num;
     x=elem;
     if (elem==NULL) {
@@ -225,28 +234,42 @@ int testKeyOf(void *elem){
     return num;
 }
 
-#define ZZZ 100
-void heapSelf(void){
+#define ZZZ 6
+void heapSelfTest(void){
     puts("HEAP SELFTEST\n");
     
     heap_bin_t H;
     H=heapInit(10, testKeyOf, HEAP_GET_MIN);
     
-    int testArray[ZZZ+3];
+    int testArray[ZZZ+1]={4,2,7,4,5,9,55};
+    
+    for (int i=0; i< ZZZ; i++)
+        printf("%2d | ",testArray[i]);
     
     sranddev();
     for (int i=ZZZ; i>=0; i--) {
-        testArray[i]=rand()%99+1;
+        //testArray[i]=rand()%99+1;
         //puts("-----------");
         //test_print_array_int(H);
         heapInsert(H, &testArray[i]);
         //test_print_array_int(H);
     }
     
-    puts("+++++++++++++++");
+    puts("\n+++++++++++++++");
     
-    for (int i=0; i< ZZZ; i++)
-        printf("<-- %d\n", *((int *)heapExtract(H)));
+    //for (int i=0; i< ZZZ; i++)
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    
+    testArray[0]=33;
+    heapRebuild(H);
+   //heapInsert(H, &testArray[6]);
+    
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    printf("<-- %d\n", *((int *)heapExtract(H)));
+    printf("<-- %d\n", *((int *)heapExtract(H)));
      
     
     puts(" end: HEAP SELFTEST\n");

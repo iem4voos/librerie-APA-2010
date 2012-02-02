@@ -169,7 +169,7 @@ int graphAddNode(graph G, int nodeNum,    void *nodeInfo){
     struct node_s *Node;
     graph_checkSizeOrGrow(G,nodeNum);
     
-    printf("adding che node num %d\n", nodeNum);
+    printf("adding node num %d\n", nodeNum);
     if (G->adj[nodeNum]!=NULL)
     {
         puts("node already exists");
@@ -196,6 +196,7 @@ void  graphDelNode(graph G, int node){
 }
 
 void * graphGetNodeData(graph G, int nodeNum){
+    if (G->adj[nodeNum]==NULL) {return NULL;}
     return G->adj[nodeNum]->user_info;
 }
 
@@ -213,6 +214,14 @@ int * graphGetNodes(graph G){
         } 
     }
     return vet;
+}
+
+int graphNodeExist(graph G, int node){
+    if (G==NULL || G->maxNodes < node || G->adj[node]==NULL) {
+        return 0;
+    }else
+        return 1;
+    
 }
 
 //MARK: - Archs

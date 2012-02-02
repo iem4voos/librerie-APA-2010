@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		050E06F0127611DF00350C49 /* matrice.c in Sources */ = {isa = PBXBuildFile; fileRef = 050E06EE127611DF00350C49 /* matrice.c */; };
+		05143F0C14D9B1100012BE39 /* strongly-connected-components.c in Sources */ = {isa = PBXBuildFile; fileRef = 05143F0B14D9B1100012BE39 /* strongly-connected-components.c */; };
+		05143F1014D9FCE70012BE39 /* dijkstra.c in Sources */ = {isa = PBXBuildFile; fileRef = 05143F0F14D9FCE70012BE39 /* dijkstra.c */; };
 		052ED3DF14D8785C00DA2578 /* graph-dfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3DE14D8785C00DA2578 /* graph-dfs.c */; };
 		052ED3E114D8789900DA2578 /* graph-Bfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3E014D8789900DA2578 /* graph-Bfs.c */; };
 		052ED3E414D87D4A00DA2578 /* topological-sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3E314D87D4900DA2578 /* topological-sort.c */; };
@@ -34,6 +36,10 @@
 /* Begin PBXFileReference section */
 		050E06EE127611DF00350C49 /* matrice.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = matrice.c; sourceTree = "<group>"; };
 		050E06EF127611DF00350C49 /* matrice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrice.h; sourceTree = "<group>"; };
+		05143F0B14D9B1100012BE39 /* strongly-connected-components.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "strongly-connected-components.c"; sourceTree = "<group>"; };
+		05143F0E14D9B1210012BE39 /* strongly-connected-components.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "strongly-connected-components.h"; sourceTree = "<group>"; };
+		05143F0F14D9FCE70012BE39 /* dijkstra.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dijkstra.c; sourceTree = "<group>"; };
+		05143F1114D9FCF30012BE39 /* dijkstra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dijkstra.h; sourceTree = "<group>"; };
 		0517F24E1275D9C000FE4281 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		0517F2511275E00D00FE4281 /* fast_git_tutorial.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = fast_git_tutorial.html; sourceTree = "<group>"; };
 		052ED3DD14D8784B00DA2578 /* graph-dfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "graph-dfs.h"; sourceTree = "<group>"; };
@@ -84,6 +90,10 @@
 				052ED3E214D878AB00DA2578 /* graph-Bfs.h */,
 				052ED3E314D87D4900DA2578 /* topological-sort.c */,
 				052ED3E514D87DBC00DA2578 /* topological-sort.h */,
+				05143F0B14D9B1100012BE39 /* strongly-connected-components.c */,
+				05143F0E14D9B1210012BE39 /* strongly-connected-components.h */,
+				05143F0F14D9FCE70012BE39 /* dijkstra.c */,
+				05143F1114D9FCF30012BE39 /* dijkstra.h */,
 			);
 			path = graphAlgoritms;
 			sourceTree = "<group>";
@@ -203,6 +213,8 @@
 				052ED3DF14D8785C00DA2578 /* graph-dfs.c in Sources */,
 				052ED3E114D8789900DA2578 /* graph-Bfs.c in Sources */,
 				052ED3E414D87D4A00DA2578 /* topological-sort.c in Sources */,
+				05143F0C14D9B1100012BE39 /* strongly-connected-components.c in Sources */,
+				05143F1014D9FCE70012BE39 /* dijkstra.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

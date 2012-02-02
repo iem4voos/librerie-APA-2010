@@ -40,10 +40,11 @@ graph graphCopy(graph G);
 graph graphTranspose(graph G);
 
 //MARK: Nodes
-int   graphAddNode(graph, int edge, void *nodeInfo);
-void  graphDelNode(graph G, int edge);
-int * graphGetNodes(graph);
+int    graphAddNode(graph, int edge, void *nodeInfo);
+void   graphDelNode(graph G, int edge);
+int  * graphGetNodes(graph);
 void * graphGetNodeData(graph G, int nodeNum);
+int    graphNodeExist(graph G, int node); // 1 if exist
 
 
 //MARK: Arcs

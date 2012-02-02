@@ -33,9 +33,9 @@ coda topological_sort(graph G){
 coda topological_sort_SelfTest(graph Gin){
     graph G=graphInit(9, GRAPH_IS_ORIENTED);
     
-    for (int i=0; i<9; graphAddNode(G, i, NULL), i++);
+    for (int i=1; i<10; graphAddNode(G, i, NULL), i++);
     
-    graphAddArch(G, 0, 1, NULL);
+    //graphAddArch(G, 0, 1, NULL);
     graphAddArch(G, 1, 2, NULL);
     graphAddArch(G, 2, 8, NULL);
     graphAddArch(G, 3, 2, NULL);
