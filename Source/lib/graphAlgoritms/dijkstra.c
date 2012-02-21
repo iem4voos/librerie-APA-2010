@@ -11,7 +11,7 @@
 
 
 
-dijkstra_t dijkstraInit(graph G,float (*peso)(void *)){
+dijkstra_t dijkstraInit(graph G,float (*peso)(void *), kind_of_sech kindOfSerch){
     dijkstra_t d;
     int nNodes;
     
@@ -23,10 +23,16 @@ dijkstra_t dijkstraInit(graph G,float (*peso)(void *)){
     d->father   = calloc(nNodes, sizeof(int));
     d->distance = calloc(nNodes, sizeof(int));
     d->peso=peso;
+    d->kindOfSerch=kindOfSerch;
     
     for (int i=0; i<nNodes; i++) {
         d->father[i]  = NOT_A_NODE;
-        d->distance[i]= INFINITE_DISTANCE;
+        if (kindOfSerch==SERCH_MIN) {
+            d->distance[i]= INFINITE_DISTANCE;
+        }else{
+            d->distance[i]= MINUS_INFINITE_DISTANCE;
+        }
+        
     }
     
     return d;
@@ -50,7 +56,7 @@ static void relax(dijkstra_t d, int from, int to){
     ah.archInfo     = graphGetArchData(d->G, from, to);
 
     distanza= d->distance[from] + d->peso(&ah);
-    
+#warning complete the min max...    
     if (d->distance[to] > distanza ) {
         d->distance[to] = distanza;
         d->father[to]   = from;
@@ -70,7 +76,11 @@ heap populateHeap(dijkstra_t d){
     heap h;
     int nodes=graphGetMaxNodes(d->G);
     
-    h=heapInit(nodes, keyOfFloatPt, HEAP_GET_MIN);
+    if (d->kindOfSerch==SERCH_MIN) {
+        h=heapInit(nodes, keyOfFloatPt, HEAP_GET_MIN);
+    }else{
+        h=heapInit(nodes, keyOfFloatPt, HEAP_GET_MAX);
+    }
     
     for (int i=0; i<nodes; i++) {
         printf("popolo %d con %f\n", i,d->distance[i]  );
@@ -176,7 +186,7 @@ void dijkstraSelfTest(void){
     graphAddArch(g, 3, 4, &pesi[4]);
     
     
-    dijkstra_t d=dijkstraInit(g, peso);
+    dijkstra_t d=dijkstraInit(g, peso, SERCH_MIN);
     d=dijkstraRun(d, 1);
     
     dijkstraPrint( d);

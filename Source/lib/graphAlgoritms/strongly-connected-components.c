@@ -8,6 +8,7 @@
 #include "strongly-connected-components.h"
 #include "graph-dfs.h"
 
+#warning need to be tested
 
 void insertInCoda(int visitedNode, void *Co){
     coda C=(coda)Co;
