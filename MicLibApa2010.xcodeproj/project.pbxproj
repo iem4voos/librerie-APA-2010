@@ -13,6 +13,7 @@
 		052ED3DF14D8785C00DA2578 /* graph-dfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3DE14D8785C00DA2578 /* graph-dfs.c */; };
 		052ED3E114D8789900DA2578 /* graph-Bfs.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3E014D8789900DA2578 /* graph-Bfs.c */; };
 		052ED3E414D87D4A00DA2578 /* topological-sort.c in Sources */ = {isa = PBXBuildFile; fileRef = 052ED3E314D87D4900DA2578 /* topological-sort.c */; };
+		053E7ABD14F44A2A00D1F68D /* graph-mst.c in Sources */ = {isa = PBXBuildFile; fileRef = 053E7ABC14F44A2A00D1F68D /* graph-mst.c */; };
 		054A56C914015AD1005D267F /* graph.c in Sources */ = {isa = PBXBuildFile; fileRef = 054A56C814015AD1005D267F /* graph.c */; };
 		05A4D4671275D664004DBA9E /* coda.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4651275D664004DBA9E /* coda.c */; };
 		05A4D46A1275D6CC004DBA9E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 05A4D4691275D6CC004DBA9E /* main.c */; };
@@ -48,6 +49,8 @@
 		052ED3E214D878AB00DA2578 /* graph-Bfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "graph-Bfs.h"; sourceTree = "<group>"; };
 		052ED3E314D87D4900DA2578 /* topological-sort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "topological-sort.c"; sourceTree = "<group>"; };
 		052ED3E514D87DBC00DA2578 /* topological-sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "topological-sort.h"; sourceTree = "<group>"; };
+		053E7ABA14F44A1300D1F68D /* graph-mst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "graph-mst.h"; sourceTree = "<group>"; };
+		053E7ABC14F44A2A00D1F68D /* graph-mst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "graph-mst.c"; sourceTree = "<group>"; };
 		054A56C614015AC4005D267F /* graph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = graph.h; sourceTree = "<group>"; };
 		054A56C814015AD1005D267F /* graph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = graph.c; sourceTree = "<group>"; };
 		056CD4F51275D32C007F514B /* MicLibApa2010 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MicLibApa2010; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,6 +97,8 @@
 				05143F0E14D9B1210012BE39 /* strongly-connected-components.h */,
 				05143F0F14D9FCE70012BE39 /* dijkstra.c */,
 				05143F1114D9FCF30012BE39 /* dijkstra.h */,
+				053E7ABA14F44A1300D1F68D /* graph-mst.h */,
+				053E7ABC14F44A2A00D1F68D /* graph-mst.c */,
 			);
 			path = graphAlgoritms;
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 				052ED3E414D87D4A00DA2578 /* topological-sort.c in Sources */,
 				05143F0C14D9B1100012BE39 /* strongly-connected-components.c in Sources */,
 				05143F1014D9FCE70012BE39 /* dijkstra.c in Sources */,
+				053E7ABD14F44A2A00D1F68D /* graph-mst.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

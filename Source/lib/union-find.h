@@ -17,6 +17,8 @@ void uf_selftest(void);
 uf_handler uf_init     (int max_len);
 void         uf_free     (uf_handler H);
 
+// return 1 if connected 0 id not
+
 // find if two numbers are connected
 int          uf_find     (uf_handler H, int p, int q);
 

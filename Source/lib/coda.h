@@ -1,9 +1,10 @@
 //  coda.c  librerie-APA-2010   Created by mic on 08/09/10.
 
+
+
 #ifndef coda_h
 #define coda_h
 
-//#include <float.h>  // tu use constant FLT_MIN
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>

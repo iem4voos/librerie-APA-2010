@@ -11,6 +11,8 @@
 
 #define Mic_graph_USE_ADJ_LIST 1
 
+#include "coda.h"
+
 /*
 typedef enum is_graph_weithed_e {
     GRAPH_IS_WEIGHTD,
@@ -28,6 +30,8 @@ typedef struct archInfo_s{
     void * fromInfo;
     void * archInfo;
     void * toInfo;
+    int  fromNode;
+    int  toNode;
 } *archInfo;
 
 typedef struct graph_s * graph;
@@ -53,6 +57,7 @@ void  graphDelArch(graph G, int fromNode, int toNode);
 int * graphGetArchsToNode(graph, int node);
 int * graphGetArchsFromNode(graph, int node); // int a dove arriva
 void * graphGetArchData(graph G, int from, int to);
+coda  graphGetAllArchs(graph G);
 
 //MARK: Counters
 int graphGetMaxNodes(graph G); //number of higest node

@@ -360,6 +360,33 @@ int * graphGetArchsFromNodeX(graph G, int Node, from_or_to isFrom )
     return vett;
 }
 
+coda  graphGetAllArchs(graph G){
+    int      nNodes, narcs, *nodi,*archi;
+    archInfo arco;
+    coda     c=codaInit();
+    void   * nodeData;
+    
+    nNodes = graphCountNodes(G);
+    nodi   = graphGetNodes(G);
+    
+    for (int i=0; i< nNodes; i++) {
+        archi = graphGetArchsFromNode(G, nodi[i]);
+        narcs = graphCountArchsFromNode(G, nodi[i]);
+        nodeData = graphGetNodeData(G, i);
+        for (int j=0; j< narcs; j++) {
+            arco=malloc(sizeof(struct archInfo_s));
+            arco->fromInfo=nodeData;
+            arco->toInfo= graphGetNodeData(G, j);
+            arco->archInfo = graphGetArchData(G, i, j);
+            arco->fromNode= i;
+            arco->toNode  = j;
+            
+            codaPush(c, arco);
+        }
+    }
+    return c;
+}
+
 
 
 //MARK: - Count
