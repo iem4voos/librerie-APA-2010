@@ -26,6 +26,8 @@ typedef enum is_graph_oriented_e {
     GRAPH_IS_NOT_ORIENTED
 } is_graph_oriented;
 
+
+// interfacia per l'acesso agli archi
 typedef struct archInfo_s{
     void * fromInfo;
     void * archInfo;
