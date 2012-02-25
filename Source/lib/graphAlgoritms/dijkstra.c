@@ -47,13 +47,14 @@ void dijkstraFree(dijkstra_t d){
 static void relax(dijkstra_t d, int from, int to){
     
     float distanza;
-    struct arch_handler_s ah;
+    struct archInfo_s ah;
+
     
-    ah.from=from;
-    ah.to=to;
-    ah.formNodeInfo = graphGetNodeData(d->G, from);
-    ah.toNodeInfo   = graphGetNodeData(d->G, to);
-    ah.archInfo     = graphGetArchData(d->G, from, to);
+    ah.fromNode=from;
+    ah.toNode=to;
+    ah.fromInfo = graphGetNodeData(d->G, from);
+    ah.toInfo   = graphGetNodeData(d->G, to);
+    ah.archInfo = graphGetArchData(d->G, from, to);
 
     distanza= d->distance[from] + d->peso(&ah);
 #warning complete the min max...    
@@ -155,11 +156,11 @@ void dijkstraPrint(dijkstra_t d){
 
 //MARK: - SELFTEST -
 float peso(void * pt){
-    arch_handler a=pt;
-    void * archInfo;
+    archInfo a=pt;
+    void * archData;
     
-    archInfo= a->archInfo;
-    float peso= *((float *)archInfo);
+    archData= a->archInfo;
+    float peso= *((float *)archData);
     return peso;
 };
 
